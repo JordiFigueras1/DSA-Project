@@ -13,6 +13,12 @@ public class Usuario {
         this.id = RandomUtils.getId();
     }
 
+    public Usuario(String mail, String username, String password) {
+        this();
+        this.setMail(mail);
+        this.setUsername(username);
+        this.setPassword(password);
+    }
     public String getId() {
         return this.id;
     }
