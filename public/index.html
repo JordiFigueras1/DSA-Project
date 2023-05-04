@@ -1,3 +1,27 @@
-<h1>Hello</h1>
-<p>World</p>
-<img src="espinete.jpg">
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+	<!--Ponemos el título a la pestaña-->
+    <title>Welcome to you WebApp</title>
+	<!--Conseguimos la fuente para estilizar-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<!--Creamos la referencia a la hoja de estilos para poder usarla-->
+    <link rel="stylesheet" href="assets/css/style.css">
+  </head>
+  <body>
+    <!--Hacemos que se vea el header llamando al documento-->
+    <header>
+        <!--Declaramos un enlace al directorio php-login-->
+        <a href="index.html">Your Web Game Name</a>
+     </header>
+	<!--Damos la bienvenida al usuario si no está vacía-->
+      <br>Welcome.
+
+	<!--Ofrecemos la opcion de registrarse o iniciar sesión en caso de no tener una variable usuario llena-->
+      <h1>Please Login or SignUp</h1>
+	<!--LLamamos a los documentos encargados de realizar dichos procesos-->
+      <a href="login.html">Login</a> or
+      <a href="signup.html">SignUp</a>
+  </body>
+</html>

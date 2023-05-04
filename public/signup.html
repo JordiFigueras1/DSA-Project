@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+	<!--Ponemos el título de la pestaña-->
+    <title>SignUp</title>
+	<!--Conseguimos la fuente para estilizar-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<!--Creamos la referencia a la hoja de estilos para poder usarla-->
+    <link rel="stylesheet" href="assets/css/style.css">
+  </head>
+  <body>
+    <!--Hacemos que se vea el header llamando al documento-->
+    <header>
+        <!--Declaramos un enlace-->
+        <a href="index.html">Your Web Game Name</a>
+     </header>
+    <!--Damos a elegir entre registrars o iniciar sesión llamando al archivo php login-->
+    <h1>SignUp</h1>
+    <span>or <a href="login.html">Login</a></span>
+    <!--Creamos un formulario que llame al mismo archivo login para obtener el email, password, confirmar la contraseña 
+	y finalmente poner un submit para enviarlo -->
+    <form action="signup.html" method="POST">
+      <input name="email" type="text" placeholder="Enter your email">
+      <input name="password" type="password" placeholder="Enter your Password">
+      <input name="confirm_password" type="password" placeholder="Confirm Password">
+      <input type="submit" value="Submit">
+    </form>
+
+  </body>
+</html>
