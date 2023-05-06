@@ -29,8 +29,6 @@ public class GameService {
             this.gm.addUser("bryan@gmail.com", "Bryan", "1234");
             this.gm.addUser("clement@gmail.com", "Clement", "1234");
         }
-
-
     }
     @GET
     @ApiOperation(value = "get all Users", notes = "asdasd")
@@ -54,10 +52,10 @@ public class GameService {
             @ApiResponse(code = 201, message = "Successful", response = User.class),
             @ApiResponse(code = 404, message = "User not found")
     })
-    @Path("/{mail}{password}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("mail") String mail, @PathParam("password") String password) {
-        User u = this.gm.getUser(mail, password);
+    public Response getUser(@PathParam("id") String id) {
+        User u = this.gm.getUser(id);
 
         if (u == null) {return Response.status(404).build();}
         else  {return Response.status(201).entity(u).build();}
@@ -69,9 +67,9 @@ public class GameService {
             @ApiResponse(code = 201, message = "Successful"),
             @ApiResponse(code = 404, message = "User not found")
     })
-    @Path("/{mail}{password}")
-    public Response deleteUser(@PathParam("mail") String mail, @PathParam("password") String password) {
-        User t = this.gm.deleteUser(mail, password);
+    @Path("/{id}")
+    public Response deleteUser(@PathParam("id") String id) {
+        User t = this.gm.deleteUser(id);
 
         if (t == null) {return Response.status(404).build();}
         else {return Response.status(201).build();}
@@ -83,13 +81,12 @@ public class GameService {
             @ApiResponse(code = 201, message = "Successful"),
             @ApiResponse(code = 404, message = "User not found")
     })
-    @Path("/{mail}{password}{username}")
-    public Response updateTrack(@PathParam("mail") String mail, @PathParam("password") String password, @PathParam("username") String newUsername) {
+    @Path("/")
+    public Response updateTrack(User u) {
 
-        User u = new User(mail, password, newUsername);
-        User newU = this.gm.updateUser(u);
+        User user = this.gm.updateUser(u);
 
-        if (newU == null) {return Response.status(404).build();}
+        if (user == null) {return Response.status(404).build();}
         else {return Response.status(201).build();}
     }
 
@@ -101,13 +98,12 @@ public class GameService {
 
     })
 
-    @Path("/{mail}{password}{username}")
+    @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newTrack(@PathParam("mail") String mail, @PathParam("password") String password, @PathParam("username") String username) {
+    public Response newTrack(User u) {
+        User t = this.gm.addUser(u);
 
-        User u = this.gm.addUser(new User(mail, password, username));
-
-        if (u == null) {return Response.status(500).entity(u).build();}
-        else {return Response.status(201).entity(u).build();}
+        if (t == null) {return Response.status(500).entity(u).build();}
+        else {return Response.status(201).entity(t).build();}
     }
 }

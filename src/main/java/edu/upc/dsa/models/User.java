@@ -1,16 +1,25 @@
 package edu.upc.dsa.models;
 
-public class User {
+import edu.upc.dsa.util.RandomUtils;
 
-    // String id;
+public class User {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    String id;
     String mail;
     String username;
     String password;
 
-    //public Usuario() {this.id = RandomUtils.getId();}
+    public User() {this.id = RandomUtils.getId();}
 
     public User(String mail, String username, String password) {
-        //this();
+        this();
         this.setMail(mail);
         this.setUsername(username);
         this.setPassword(password);
@@ -39,7 +48,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "Usuario [mail=" + mail + ", username=" + username +", password=" + password+"]";
+        return "User [mail=" + mail + ", username=" + username +", password=" + password+"]";
     }
 
 }

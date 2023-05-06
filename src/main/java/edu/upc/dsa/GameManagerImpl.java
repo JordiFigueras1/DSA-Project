@@ -45,22 +45,17 @@ public class GameManagerImpl implements GameManager{
         return this.addUser(new User(mail, username, password));
     }
 
-    public User getUser(String mail, String password) {
+    public User getUser(String id) {
 
-        logger.info("we want to get user associated to " + mail);
+        logger.info("we want to get user associated to " + id);
 
         for (User u: this.users) {
-            if (u.getMail().equals(mail)) {
-                if (u.getPassword().equals(password)) {
+            if (u.getId().equals(id)) {
                     logger.info("the user is " + u);
                     return u;
-                } else {
-                    logger.warn("password is wrong");
-                    return null;
-                }
             }
         }
-        logger.warn("none user associated to : " + mail);
+        logger.warn("none user associated to : " + id);
         return null;
     }
     public List<User> findAll() {
@@ -68,12 +63,12 @@ public class GameManagerImpl implements GameManager{
     }
 
     @Override
-    public User deleteUser(String mail, String password) {
+    public User deleteUser(String id) {
 
-        User u = this.getUser(mail, password);
+        User u = this.getUser(id);
 
         if (u==null) {
-            logger.warn("none user associated to : " + mail);
+            logger.warn("none user associated to : " + id);
         }
         else {
             logger.info(u +" deleted ");
@@ -87,12 +82,14 @@ public class GameManagerImpl implements GameManager{
     @Override
     public User updateUser(User u) {
 
-        User t = this.getUser(u.getMail(), u.getPassword());
+        User t = this.getUser(u.getId());
 
         if (t!=null) {
             logger.info(u + " rebut !!!! ");
 
             t.setUsername(u.getUsername());
+            t.setMail(u.getMail());
+            t.setPassword(u.getPassword());
 
             logger.info(t + " updated ");
         }
