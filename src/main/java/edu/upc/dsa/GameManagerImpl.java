@@ -1,14 +1,14 @@
 package edu.upc.dsa;
 
 import edu.upc.dsa.models.Track;
-import edu.upc.dsa.models.Usuario;
+import edu.upc.dsa.models.User;
 
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.log4j.Logger;
 public class GameManagerImpl implements GameManager{
     private static GameManager instance;
-    protected List<Usuario> users;
+    protected List<User> users;
     final static Logger logger = Logger.getLogger(TracksManagerImpl.class);
 
     private GameManagerImpl() {
@@ -27,63 +27,77 @@ public class GameManagerImpl implements GameManager{
         return ret;
     }
 
-    public Usuario addUser(Usuario u) {
-        logger.info("new Track " + u);
+    public User addUser(User u) {
 
-        this.users.add (u);
-        logger.info("new Track added");
-        return u;
+        logger.info("new user : " + u + " should be add");
+
+        if (this.users.contains(u)) {
+            logger.warn("user is already existing");
+            return null;
+        } else {
+            this.users.add(u);
+            logger.info("new user added");
+            return u;
+        }
     }
 
-    public Usuario addUser(String mail, String username, String password) {
-        return this.addUser(new Usuario(mail, username, password));
+    public User addUser(String mail, String username, String password) {
+        return this.addUser(new User(mail, username, password));
     }
 
-    public Usuario getUser(String id) {
-        logger.info("getTrack("+id+")");
+    public User getUser(String mail, String password) {
 
-        for (Usuario u: this.users) {
-            if (u.getId().equals(id)) {
-                logger.info("getTrack("+id+"): "+u);
+        logger.info("we want to get user associated to " + mail);
 
-                return u;
+        for (User u: this.users) {
+            if (u.getMail().equals(mail)) {
+                if (u.getPassword().equals(password)) {
+                    logger.info("the user is " + u);
+                    return u;
+                } else {
+                    logger.warn("password is wrong");
+                    return null;
+                }
             }
         }
-
-        logger.warn("not found " + id);
+        logger.warn("none user associated to : " + mail);
         return null;
     }
-    public List<Usuario> findAll() {
+    public List<User> findAll() {
         return this.users;
     }
 
     @Override
-    public void deleteUser(String id) {
+    public User deleteUser(String mail, String password) {
 
-        Usuario u = this.getUser(id);
+        User u = this.getUser(mail, password);
+
         if (u==null) {
-            logger.warn("not found " + u);
-        }
-        else logger.info(u+" deleted ");
-
-        this.users.remove(u);
-
-    }
-    @Override
-    public Usuario updateUser(Usuario p) {
-        Usuario t = this.getUser(p.getId());
-
-        if (t!=null) {
-            logger.info(p+" rebut!!!! ");
-
-            t.setMail(p.getMail());
-            t.setUsername(p.getUsername());
-            t.setPassword(p.getPassword());
-
-            logger.info(t+" updated ");
+            logger.warn("none user associated to : " + mail);
         }
         else {
-            logger.warn("not found "+p);
+            logger.info(u +" deleted ");
+            this.users.remove(u);
+        }
+        return u;
+    }
+
+    // We will  need to do a function  to update only the password
+    // Here the function is used to only change username (for the moment)
+    @Override
+    public User updateUser(User u) {
+
+        User t = this.getUser(u.getMail(), u.getPassword());
+
+        if (t!=null) {
+            logger.info(u + " rebut !!!! ");
+
+            t.setUsername(u.getUsername());
+
+            logger.info(t + " updated ");
+        }
+        else {
+            logger.warn("none user associated to : " + u);
         }
 
         return t;
