@@ -111,16 +111,16 @@ public class GameService {
     @ApiOperation(value = "create a new User", notes = "asdasd")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response=User.class),
-            @ApiResponse(code = 500, message = "Validation Error")
+            @ApiResponse(code = 400, message = "User already exist for this mail")
 
     })
 
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newTrack(User u) {
+    public Response newUser(User u) {
         User t = this.gm.addUser(u);
 
-        if (t == null) {return Response.status(500).entity(u).build();}
-        else {return Response.status(201).entity(t).build();}
+        if (t == null) {return Response.status(400).build();}
+        else {return Response.status(201).entity(u).build();}
     }
 }

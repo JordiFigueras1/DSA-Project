@@ -31,14 +31,15 @@ public class GameManagerImpl implements GameManager{
 
         logger.info("new user : " + u + " should be add");
 
-        if (this.users.contains(u)) {
-            logger.warn("user is already existing");
-            return null;
-        } else {
-            this.users.add(u);
-            logger.info("new user added");
-            return u;
+        for (User a : this.users) {
+            if (a.getMail().equals(u.getMail())){
+                logger.warn("user is already existing for this mail");
+                return null;
+            }
         }
+        this.users.add(u);
+        logger.info("new user " + u + " added");
+        return u;
     }
 
     public User addUser(String mail, String username, String password) {
