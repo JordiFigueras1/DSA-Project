@@ -13,6 +13,7 @@ public interface GameManager {
     public List<User> findAll();
     public User deleteUser(String id);
     public User updateUser(User u);
+    public User authentification(String mail, String password);
 
     public int size();
 

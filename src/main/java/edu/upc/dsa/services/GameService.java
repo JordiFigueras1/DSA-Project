@@ -61,6 +61,22 @@ public class GameService {
         else  {return Response.status(201).entity(u).build();}
     }
 
+    @GET
+    @ApiOperation(value = "Authentificate User", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = User.class),
+            @ApiResponse(code = 404, message = "User not found")
+    })
+    @Path("/{mail}&{password}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response authentificate(@PathParam("mail") String mail, @PathParam("password") String password) {
+
+        User user = this.gm.authentification(mail, password);
+
+        if (user == null) {return Response.status(404).build();}
+        else {return Response.status(201).entity(user).build();}
+    }
+
     @DELETE
     @ApiOperation(value = "delete a User", notes = "asdasd")
     @ApiResponses(value = {
@@ -74,6 +90,7 @@ public class GameService {
         if (t == null) {return Response.status(404).build();}
         else {return Response.status(201).build();}
     }
+
 
     @PUT
     @ApiOperation(value = "update a User", notes = "asdasd")

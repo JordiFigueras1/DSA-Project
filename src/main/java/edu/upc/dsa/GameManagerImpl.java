@@ -99,4 +99,22 @@ public class GameManagerImpl implements GameManager{
 
         return t;
     }
+
+    @Override
+    public User authentification(String mail, String password) {
+
+        for (User c: this.users) {
+            if (c.getMail().equals(mail)) {
+                if (c.getPassword().equals(password)) {
+                    logger.info("user found");
+                    return c;
+                } else {
+                    logger.warn("Password wrong");
+                    return null;
+                }
+            }
+        }
+        logger.warn("user not found");
+        return null;
+    }
 }
