@@ -1,18 +1,19 @@
 package edu.upc.dsa;
 
 import edu.upc.dsa.models.Track;
-import edu.upc.dsa.models.Usuario;
+import edu.upc.dsa.models.User;
 
 import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
 public interface GameManager {
-    public Usuario addUser(String  mail, String username, String password);
-    public Usuario addUser(Usuario u);
-    public Usuario getUser (String mail);
-    public List<Usuario> findAll();
-    public void deleteUser(String id);
-    public Usuario updateUser(Usuario u);
+    public User addUser(String  mail, String username, String password);
+    public User addUser(User u);
+    public User getUser (String id);
+    public List<User> findAll();
+    public User deleteUser(String id);
+    public User updateUser(User u);
+    public User authentification(String mail, String password);
 
     public int size();
 
