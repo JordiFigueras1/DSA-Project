@@ -1,32 +1,48 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-	<!--Ponemos el título de la pestaña-->
-    <title>SignUp</title>
-	<!--Conseguimos la fuente para estilizar-->
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-	<!--Creamos la referencia a la hoja de estilos para poder usarla-->
-    <link rel="stylesheet" href="assets/css/style.css">
-  </head>
-  <body>
-    <!--Hacemos que se vea el header llamando al documento-->
-    <header>
-        <!--Declaramos un enlace-->
-        <a href="index.html">Your Web Game Name</a>
-     </header>
-    <!--Damos a elegir entre registrars o iniciar sesión llamando al archivo php login-->
-    <h1>SignUp</h1>
-    <span>or <a href="login.html">Login</a></span>
-    <!--Creamos un formulario que llame al mismo archivo login para obtener el email, password, confirmar la contraseña 
-	y finalmente poner un submit para enviarlo -->
-    <form action="signup.html" method="POST">
-      <input name="email" type="text" placeholder="Enter your email">
-      <input name="username" type="username" placeholder="Enter your Username">
-      <input name="password" type="password" placeholder="Enter your Password">
-      <input name="confirm_password" type="password" placeholder="Confirm Password">
-      <input type="submit" value="Submit">
-    </form>
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("#signup-form").submit(function(event) {
+        event.preventDefault();
 
-  </body>
+        var mail = $("#mail").val();
+        var username = $("#username").val();
+        var password = $("#password").val();
+
+        $.ajax({
+          url: "/dsaApp/juego/users/register",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({
+            mail: mail,
+            username: username,
+            password: password
+          }),
+          success: function(response) {
+            console.log(response);
+          },
+          error: function(error) {
+            console.log(error);
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+<h1>Sign Up</h1>
+<form id="signup-form">
+  <label for="mail">Email:</label>
+  <input type="email" id="mail" name="mail" required><br><br>
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username" required><br><br>
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required><br><br>
+  <input type="submit" value="Submit">
+</form>
+</body>
 </html>

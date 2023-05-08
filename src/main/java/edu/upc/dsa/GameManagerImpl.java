@@ -1,6 +1,5 @@
 package edu.upc.dsa;
 
-import edu.upc.dsa.models.Track;
 import edu.upc.dsa.models.User;
 
 import java.util.LinkedList;
