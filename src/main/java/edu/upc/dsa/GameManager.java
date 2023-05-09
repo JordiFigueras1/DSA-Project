@@ -15,7 +15,8 @@ public interface GameManager {
     public int sizeObjects();
 
     public Objeto addObjeto(Objeto o);
-    public Objeto addObjeto(String nombre, String descripcion, Integer precio, Integer damage, Integer health);
+    public Objeto addObjeto(String nombre, String descripcion, int precio, int damage,int health, String image);
+    public Objeto addObjeto(String nombre, String descripcion, int precio, int damage, int health);
     public List<Objeto> getAllObjects();
 
     public User loginUsuario(VOCredentials credenciales);

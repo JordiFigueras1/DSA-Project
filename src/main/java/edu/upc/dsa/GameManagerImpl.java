@@ -17,6 +17,7 @@ public class GameManagerImpl implements GameManager{
 
     private GameManagerImpl() {
         this.users = new LinkedList<>();
+        this.objetos = new LinkedList<>();
     }
 
     public static GameManager getInstance() {
@@ -56,8 +57,12 @@ public class GameManagerImpl implements GameManager{
         return o;
     }
 
-    public Objeto addObjeto(String nombre, String descripcion, Integer precio, Integer damage, Integer health) {
-        return this.addObjeto(new Objeto(nombre, descripcion, precio, damage, health));
+    public Objeto addObjeto(String nombre, String descripcion, int precio, int damage, int health, String image) {
+        return this.addObjeto(new Objeto(nombre, descripcion, precio, damage, health, image));
+    }
+
+    public Objeto addObjeto(String nombre, String descripcion, int precio, int damage, int health) {
+      return addObjeto(nombre, descripcion, precio, damage, health, null);
     }
 
     public User addUser(String mail, String username, String password) {
