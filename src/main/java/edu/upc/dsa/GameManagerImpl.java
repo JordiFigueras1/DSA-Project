@@ -61,7 +61,7 @@ public class GameManagerImpl implements GameManager{
         return null;
     }
 
-    @Override
+   /* @Override
     public User loginUsuario(VOCredentials credenciales) {
         logger.info("Login: " + credenciales.getMail());
         Session session = null;
@@ -81,7 +81,7 @@ public class GameManagerImpl implements GameManager{
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
     public List<User> findAll() {
         return this.users;
     }
