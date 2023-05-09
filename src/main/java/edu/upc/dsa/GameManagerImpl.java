@@ -2,6 +2,8 @@ package edu.upc.dsa;
 
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
+import edu.upc.dsa.models.Objeto;
+import edu.upc.dsa.models.Tienda;
 
 import java.util.LinkedList;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import org.apache.log4j.Logger;
 public class GameManagerImpl implements GameManager{
     private static GameManager instance;
     protected List<User> users;
+    protected List<Objeto> objetos;
     final static Logger logger = Logger.getLogger(GameManagerImpl.class);
 
     private GameManagerImpl() {
@@ -61,27 +64,26 @@ public class GameManagerImpl implements GameManager{
         return null;
     }
 
-   /* @Override
+   @Override
     public User loginUsuario(VOCredentials credenciales) {
-        logger.info("Login: " + credenciales.getMail());
-        Session session = null;
-        User user = new User();
-        List<User> u = new ArrayList<User>();
-        HashMap<String,String> params = new HashMap<String,String>();
-        params.put("mail",credenciales.getMail());
-        params.put("password",credenciales.getPassword());
-        try{
-            session = FactorySession.openSession();
-            u = session.findByParams(user,params);
-            if (u.get(0)!=null){
-                return u.get(0);
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }*/
+       logger.info("login: " + credenciales.getMail());
+
+       for (User u : this.users) {
+           if (u.getMail().equals(credenciales.getMail()) && u.getPassword().equals(credenciales.getPassword())) {
+               logger.info("user loggeado satisfactoriamente");
+               return u;
+           }
+       }
+
+       logger.warn("user not found or password is incorrect");
+       return null;
+    }
+
+    @Override
+    public int sizeObjects() {
+        logger.info("El tamaño de la lista de objetos es :" + objetos.size());
+        return this.objetos.size();
+    }
     public List<User> findAll() {
         return this.users;
     }

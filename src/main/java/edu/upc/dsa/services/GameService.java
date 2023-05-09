@@ -3,6 +3,7 @@ package edu.upc.dsa.services;
 import edu.upc.dsa.GameManager;
 import edu.upc.dsa.GameManagerImpl;
 import edu.upc.dsa.models.User;
+import edu.upc.dsa.models.VOCredentials;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,6 +45,25 @@ public class GameService {
         GenericEntity<List<User>> entity = new GenericEntity<List<User>>(users) {};
         return Response.status(201).entity(entity).build();
 
+    }
+
+    @POST
+    @ApiOperation(value = "login", notes = "Realitzar el login")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response= User.class),
+            @ApiResponse(code = 500, message = "Validation Error")
+
+    })
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response logIn(VOCredentials credentials) {
+        System.out.println("-----LOGIN-----");
+        System.out.println("Mail: "+ credentials.getMail());
+        User u = this.gm.loginUsuario(credentials);
+        if (u==null)
+            return Response.status(500).build();
+        else
+            return Response.status(201).entity(u).build();
     }
 
     @GET
