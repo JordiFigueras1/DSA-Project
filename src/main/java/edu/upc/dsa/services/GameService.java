@@ -62,7 +62,7 @@ public class GameService {
     }
 
     @GET
-    @ApiOperation(value = "Authentificate User", notes = "asdasd")
+    @ApiOperation(value = "Authenticate User", notes = "asdasd")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = User.class),
             @ApiResponse(code = 404, message = "User not found")
@@ -99,7 +99,7 @@ public class GameService {
             @ApiResponse(code = 404, message = "User not found")
     })
     @Path("/")
-    public Response updateTrack(User u) {
+    public Response updateUser(User u) {
 
         User user = this.gm.updateUser(u);
 
@@ -115,7 +115,7 @@ public class GameService {
 
     })
 
-    @Path("/")
+    @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newUser(User u) {
         User t = this.gm.addUser(u);

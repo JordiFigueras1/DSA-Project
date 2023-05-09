@@ -17,7 +17,6 @@ public class User {
     String password;
 
     public User() {this.id = RandomUtils.getId();}
-
     public User(String mail, String username, String password) {
         this();
         this.setMail(mail);

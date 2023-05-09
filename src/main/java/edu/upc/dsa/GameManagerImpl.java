@@ -1,14 +1,16 @@
 package edu.upc.dsa;
 
 import edu.upc.dsa.models.User;
+import edu.upc.dsa.models.VOCredentials;
 
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 public class GameManagerImpl implements GameManager{
     private static GameManager instance;
     protected List<User> users;
-    final static Logger logger = Logger.getLogger(TracksManagerImpl.class);
+    final static Logger logger = Logger.getLogger(GameManagerImpl.class);
 
     private GameManagerImpl() {
         this.users = new LinkedList<>();
@@ -56,6 +58,28 @@ public class GameManagerImpl implements GameManager{
             }
         }
         logger.warn("none user associated to : " + id);
+        return null;
+    }
+
+    @Override
+    public User loginUsuario(VOCredentials credenciales) {
+        logger.info("Login: " + credenciales.getMail());
+        Session session = null;
+        User user = new User();
+        List<User> u = new ArrayList<User>();
+        HashMap<String,String> params = new HashMap<String,String>();
+        params.put("mail",credenciales.getMail());
+        params.put("password",credenciales.getPassword());
+        try{
+            session = FactorySession.openSession();
+            u = session.findByParams(user,params);
+            if (u.get(0)!=null){
+                return u.get(0);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
     public List<User> findAll() {

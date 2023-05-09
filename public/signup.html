@@ -6,7 +6,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function() {
-      $("#signup-form").submit(function(event) {
+      $('#signupButton').click(function(event){
         event.preventDefault();
 
         var mail = $("#mail").val();
@@ -14,7 +14,7 @@
         var password = $("#password").val();
 
         $.ajax({
-          url: "/dsaApp/juego/users/register",
+          url: "/dsaApp/users/register",
           type: "POST",
           contentType: "application/json",
           data: JSON.stringify({
@@ -42,7 +42,7 @@
   <input type="text" id="username" name="username" required><br><br>
   <label for="password">Password:</label>
   <input type="password" id="password" name="password" required><br><br>
-  <input type="submit" value="Submit">
+  <button class="button" id="signupButton" onclick="addUser()"><a>Sign me up</a></button>
 </form>
 </body>
 </html>
