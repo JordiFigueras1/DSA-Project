@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>EETAC SURVIVOR - Info user</title>
+
+  <meta charset = "UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel ="stylesheet" href ="../css/infoUser.css">
+
+  <script src="https://kit.fontawesome.com/fbbddd9141.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/informacion.js"></script>
+  <script>
+    var object = {"name": name, "descripcion": descripcion, "precio": precio, "damage": damage, "health": health}
+
+    $(document).ready(function(){
+      $.get({
+        url: '/dsaApp/users/objetos',
+        data: JSON.stringify(object),
+        contentType: 'application/json; charset=utf8'
+      })
+      $('name').html($('name').val());
+      $('descripcion').html($('descripcion').val());
+      $('precio').html($('precio').val());
+      $('damage').html($('damage').val());
+      $('health').html($('health').val());
+    });
+  </script>
+</head>
+<body>
+<nav class="nav">
+  <ul class="ul">
+    <li><a href="descubrir.html">DESCUBRIR</a></li>
+    <li><a href="tienda.html" class="activo">TIENDA</a></li>
+    <li><a href="login.html">LOG IN</a></li>
+    <li><a href="signup.html">SIGN UP</a></li>
+    <li><a href="soporte.html" >OTROS </a></li>
+    <li><a href="../index.html" >SALIR</a></li>
+  </ul>
+</nav>
+<main class="main">
+  <h1 class="title" id="userName">Tienda</h1>
+  <div class="object" id="object" name="object">
+    <div id="name">Nombre</div>
+    <div id="descripcion">Descripción</div>
+    <div id="precio">Precio</div>
+    <div id="damage">Daño</div>
+    <div id="health">Curacion</div>
+  </div>
+</main>
+</body>
+</html>

@@ -46,6 +46,20 @@ public class GameManagerImpl implements GameManager{
         return u;
     }
 
+    public Objeto addObjeto(Objeto o) {
+
+        logger.info("new objeto : " + o + " should be add");
+
+        this.objetos.add(o);
+
+        logger.info("new object " + o + " added");
+        return o;
+    }
+
+    public Objeto addObjeto(String nombre, String descripcion, Integer precio, Integer damage, Integer health) {
+        return this.addObjeto(new Objeto(nombre, descripcion, precio, damage, health));
+    }
+
     public User addUser(String mail, String username, String password) {
         return this.addUser(new User(mail, username, password));
     }
@@ -84,6 +98,12 @@ public class GameManagerImpl implements GameManager{
         logger.info("El tamaño de la lista de objetos es :" + objetos.size());
         return this.objetos.size();
     }
+
+    @Override
+    public List<Objeto> getAllObjects() {
+        return this.objetos;
+    }
+    @Override
     public List<User> findAll() {
         return this.users;
     }

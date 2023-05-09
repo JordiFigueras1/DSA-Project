@@ -10,14 +10,13 @@ public class Objeto {
     String descripcion;
     public Objeto(){this.id =RandomUtils.getId();}
 
-    public Objeto(String nombre, String descripcion){
+    public Objeto(String nombre, String descripcion, Integer precio, Integer damage, Integer health){
         this();
         this.setNombre(nombre);
         this.setDescripcion(descripcion);
         this.setPrecio(precio);
         this.setDamage(damage);
         this.setHealth(health);
-        this.setNobjetos(nobjetos);
 
     }
 

@@ -13,6 +13,16 @@
         var username = $("#username").val();
         var password = $("#password").val();
 
+        if (mail == '' || username == '' || password == '') {
+          alert('Por favor, complete todos los campos.');
+          return;
+        }
+
+        if (!isValidEmail(mail)) {
+          alert('Por favor, introduzca un correo electrónico válido.');
+          return;
+        }
+
         $.ajax({
           url: "/dsaApp/users/register",
           type: "POST",
@@ -23,17 +33,26 @@
             password: password
           }),
           success: function(response) {
-            console.log(response);
+            alert("User registrado correctamente");
+            document.location= "/login.html";
           },
           error: function(error) {
-            console.log(error);
+            alert("Usuario o contraseña incorrectos");
           }
         });
       });
+
+      function isValidEmail(email) {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
     });
   </script>
 </head>
 <body>
+<header>
+  <a href="index.html">Your Web Game Name</a>
+</header>
 <h1>Sign Up</h1>
 <form id="signup-form">
   <label for="mail">Email:</label>
@@ -42,7 +61,7 @@
   <input type="text" id="username" name="username" required><br><br>
   <label for="password">Password:</label>
   <input type="password" id="password" name="password" required><br><br>
-  <button class="button" id="signupButton" onclick="addUser()"><a>Sign me up</a></button>
+  <button class="button" id="signupButton"><a>Sign me up</a></button>
 </form>
 </body>
 </html>

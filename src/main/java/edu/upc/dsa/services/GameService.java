@@ -4,6 +4,7 @@ import edu.upc.dsa.GameManager;
 import edu.upc.dsa.GameManagerImpl;
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
+import edu.upc.dsa.models.Objeto;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +30,10 @@ public class GameService {
             this.gm.addUser("jordi@gmail.com", "Jordi", "1234");
             this.gm.addUser("bryan@gmail.com", "Bryan", "1234");
             this.gm.addUser("clement@gmail.com", "Clement", "1234");
+            this.gm.addObjeto("ESPADA", "espada de doble mano forjada por herreros de rivendel", 15, 10, 0);
+            this.gm.addObjeto("POCION", "Pocion curativa", 20, 0, 10);
+            this.gm.addObjeto("ESCUDO", "Proporciona defensa", 10, 0, 50);
+            this.gm.addObjeto("BASTON", "Pega ostias", 50, 100, 0);
         }
     }
     @GET
@@ -138,9 +143,24 @@ public class GameService {
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newUser(User u) {
+
         User t = this.gm.addUser(u);
 
         if (t == null) {return Response.status(400).build();}
         else {return Response.status(201).entity(u).build();}
+    }
+
+    @GET
+    @ApiOperation(value = "get all Objects", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Objeto.class, responseContainer="List"),
+    })
+    @Path("/objetos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getObjects() {
+        List<Objeto> listaObjetos = this.gm.getAllObjects();
+        GenericEntity<List<Objeto>> entity = new GenericEntity<List<Objeto>>(listaObjetos){};
+        return Response.status(201).entity(entity).build();
+
     }
 }
