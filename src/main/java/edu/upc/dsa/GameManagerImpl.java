@@ -2,22 +2,20 @@ package edu.upc.dsa;
 
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
-import edu.upc.dsa.models.Objeto;
-import edu.upc.dsa.models.Tienda;
+import edu.upc.dsa.models.Object;
 
 import java.util.LinkedList;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 public class GameManagerImpl implements GameManager{
     private static GameManager instance;
     protected List<User> users;
-    protected List<Objeto> objetos;
+    protected List<Object> objects;
     final static Logger logger = Logger.getLogger(GameManagerImpl.class);
 
     private GameManagerImpl() {
         this.users = new LinkedList<>();
-        this.objetos = new LinkedList<>();
+        this.objects = new LinkedList<>();
     }
 
     public static GameManager getInstance() {
@@ -47,22 +45,22 @@ public class GameManagerImpl implements GameManager{
         return u;
     }
 
-    public Objeto addObjeto(Objeto o) {
+    public Object addObject(Object o) {
 
         logger.info("new objeto : " + o + " should be add");
 
-        this.objetos.add(o);
+        this.objects.add(o);
 
         logger.info("new object " + o + " added");
         return o;
     }
 
-    public Objeto addObjeto(String nombre, String descripcion, int precio, int damage, int health, String image) {
-        return this.addObjeto(new Objeto(nombre, descripcion, precio, damage, health, image));
+    public Object addObject(String name, String description, int price, int damage, int health, String image) {
+        return this.addObject(new Object(name, description, price, damage, health, image));
     }
 
-    public Objeto addObjeto(String nombre, String descripcion, int precio, int damage, int health) {
-      return addObjeto(nombre, descripcion, precio, damage, health, null);
+    public Object addObject(String name, String description, int price, int damage, int health) {
+      return addObject(name, description, price, damage, health, null);
     }
 
     public User addUser(String mail, String username, String password) {
@@ -100,13 +98,13 @@ public class GameManagerImpl implements GameManager{
 
     @Override
     public int sizeObjects() {
-        logger.info("El tamaño de la lista de objetos es :" + objetos.size());
-        return this.objetos.size();
+        logger.info("El tamaño de la lista de objects es :" + objects.size());
+        return this.objects.size();
     }
 
     @Override
-    public List<Objeto> getAllObjects() {
-        return this.objetos;
+    public List<Object> getAllObjects() {
+        return this.objects;
     }
     @Override
     public List<User> findAll() {

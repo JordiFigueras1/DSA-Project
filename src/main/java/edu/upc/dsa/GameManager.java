@@ -2,9 +2,7 @@ package edu.upc.dsa;
 
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
-import edu.upc.dsa.models.Objeto;
-import edu.upc.dsa.models.Tienda;
-import edu.upc.dsa.models.Enemigo;
+import edu.upc.dsa.models.Object;
 
 import java.util.List;
 
@@ -14,10 +12,10 @@ public interface GameManager {
     public User getUser (String id);
     public int sizeObjects();
 
-    public Objeto addObjeto(Objeto o);
-    public Objeto addObjeto(String nombre, String descripcion, int precio, int damage,int health, String image);
-    public Objeto addObjeto(String nombre, String descripcion, int precio, int damage, int health);
-    public List<Objeto> getAllObjects();
+    public Object addObject(Object o);
+    public Object addObject(String name, String description, int price, int damage, int health, String image);
+    public Object addObject(String name, String description, int price, int damage, int health);
+    public List<Object> getAllObjects();
 
     public User loginUsuario(VOCredentials credenciales);
 

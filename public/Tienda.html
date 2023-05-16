@@ -15,7 +15,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/js/informacion.js"></script>
   <script>
-    var object = {"name": name, "descripcion": descripcion, "precio": precio, "damage": damage, "health": health}
+    var object = {"name": name, "description": description, "price": price, "damage": damage, "health": health}
 
     $(document).ready(function(){
       $.get({
@@ -24,8 +24,8 @@
         contentType: 'application/json; charset=utf8'
       })
       $('name').html($('name').val());
-      $('descripcion').html($('descripcion').val());
-      $('precio').html($('precio').val());
+      $('description').html($('description').val());
+      $('price').html($('price').val());
       $('damage').html($('damage').val());
       $('health').html($('health').val());
     });
@@ -46,8 +46,8 @@
   <h1 class="title" id="userName">Tienda</h1>
   <div class="object" id="object" name="object">
     <div id="name">Nombre</div>
-    <div id="descripcion">Descripción</div>
-    <div id="precio">Precio</div>
+    <div id="description">Descripción</div>
+    <div id="price">Precio</div>
     <div id="damage">Daño</div>
     <div id="health">Curacion</div>
   </div>

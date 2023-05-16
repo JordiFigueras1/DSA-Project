@@ -4,7 +4,7 @@ import edu.upc.dsa.GameManager;
 import edu.upc.dsa.GameManagerImpl;
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
-import edu.upc.dsa.models.Objeto;
+import edu.upc.dsa.models.Object;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +15,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 @Api(value = "/users", description = "Endpoint to User Service")
@@ -30,10 +29,10 @@ public class GameService {
             this.gm.addUser("jordi@gmail.com", "Jordi", "1234");
             this.gm.addUser("bryan@gmail.com", "Bryan", "1234");
             this.gm.addUser("clement@gmail.com", "Clement", "1234");
-            this.gm.addObjeto("ESPADA", "espada de doble mano forjada por herreros de rivendel", 15, 10, 0, "https://espadasdetoledo.com/images/stories/virtuemart/product/Battle_ready_sword.jpg");
-            this.gm.addObjeto("POCION", "Pocion curativa", 20, 0, 10,"");
-            this.gm.addObjeto("ESCUDO", "Proporciona defensa", 10, 0, 50, "");
-            this.gm.addObjeto("BASTON", "Pega ostias", 50, 100, 0, "");
+            this.gm.addObject("ESPADA", "espada de doble mano forjada por herreros de rivendel", 15, 10, 0, "https://espadasdetoledo.com/images/stories/virtuemart/product/Battle_ready_sword.jpg");
+            this.gm.addObject("POCION", "Pocion curativa", 20, 0, 10,"");
+            this.gm.addObject("ESCUDO", "Proporciona defensa", 10, 0, 50, "");
+            this.gm.addObject("BASTON", "Pega ostias", 50, 100, 0, "");
         }
     }
     @GET
@@ -72,7 +71,7 @@ public class GameService {
     }
 
     @GET
-    @ApiOperation(value = "get a User", notes = "asdasd")
+    @ApiOperation(value = "get an User", notes = "asdasd")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = User.class),
             @ApiResponse(code = 404, message = "User not found")
@@ -103,7 +102,7 @@ public class GameService {
     }
 
     @DELETE
-    @ApiOperation(value = "delete a User", notes = "asdasd")
+    @ApiOperation(value = "delete an User", notes = "asdasd")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful"),
             @ApiResponse(code = 404, message = "User not found")
@@ -118,7 +117,7 @@ public class GameService {
 
 
     @PUT
-    @ApiOperation(value = "update a User", notes = "asdasd")
+    @ApiOperation(value = "update an User", notes = "asdasd")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful"),
             @ApiResponse(code = 404, message = "User not found")
@@ -153,13 +152,13 @@ public class GameService {
     @GET
     @ApiOperation(value = "get all Objects", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Objeto.class, responseContainer="List"),
+            @ApiResponse(code = 201, message = "Successful", response = Object.class, responseContainer="List"),
     })
     @Path("/objetos")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getObjects() {
-        List<Objeto> listaObjetos = this.gm.getAllObjects();
-        GenericEntity<List<Objeto>> entity = new GenericEntity<List<Objeto>>(listaObjetos){};
+        List<Object> listaObjetos = this.gm.getAllObjects();
+        GenericEntity<List<Object>> entity = new GenericEntity<List<Object>>(listaObjetos){};
         return Response.status(201).entity(entity).build();
 
     }
