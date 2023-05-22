@@ -2,7 +2,7 @@ package edu.upc.dsa;
 
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
-import edu.upc.dsa.models.Object;
+import edu.upc.dsa.models.Item;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 public class GameManagerImpl implements GameManager{
     private static GameManager instance;
     protected List<User> users;
-    protected List<Object> objects;
+    protected List<Item> objects;
     final static Logger logger = Logger.getLogger(GameManagerImpl.class);
 
     private GameManagerImpl() {
@@ -45,7 +45,7 @@ public class GameManagerImpl implements GameManager{
         return u;
     }
 
-    public Object addObject(Object o) {
+    public Item addObject(Item o) {
 
         logger.info("new objeto : " + o + " should be add");
 
@@ -55,11 +55,11 @@ public class GameManagerImpl implements GameManager{
         return o;
     }
 
-    public Object addObject(String name, String description, int price, int damage, int health, String image) {
-        return this.addObject(new Object(name, description, price, damage, health, image));
+    public Item addObject(String name, String description, int price, int damage, int health, String image) {
+        return this.addObject(new Item(name, description, price, damage, health, image));
     }
 
-    public Object addObject(String name, String description, int price, int damage, int health) {
+    public Item addObject(String name, String description, int price, int damage, int health) {
       return addObject(name, description, price, damage, health, null);
     }
 
@@ -103,7 +103,7 @@ public class GameManagerImpl implements GameManager{
     }
 
     @Override
-    public List<Object> getAllObjects() {
+    public List<Item> getAllObjects() {
         return this.objects;
     }
     @Override

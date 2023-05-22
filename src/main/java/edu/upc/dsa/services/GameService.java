@@ -4,7 +4,7 @@ import edu.upc.dsa.GameManager;
 import edu.upc.dsa.GameManagerImpl;
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
-import edu.upc.dsa.models.Object;
+import edu.upc.dsa.models.Item;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -152,13 +152,13 @@ public class GameService {
     @GET
     @ApiOperation(value = "get all Objects", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Object.class, responseContainer="List"),
+            @ApiResponse(code = 201, message = "Successful", response = Item.class, responseContainer="List"),
     })
     @Path("/objetos")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getObjects() {
-        List<Object> listaObjetos = this.gm.getAllObjects();
-        GenericEntity<List<Object>> entity = new GenericEntity<List<Object>>(listaObjetos){};
+        List<Item> listaObjetos = this.gm.getAllObjects();
+        GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(listaObjetos){};
         return Response.status(201).entity(entity).build();
 
     }

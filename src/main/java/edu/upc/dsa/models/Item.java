@@ -1,6 +1,6 @@
 package edu.upc.dsa.models;
 import edu.upc.dsa.util.RandomUtils;
-public class Object {
+public class Item {
     String id;
     String name;
     int price;
@@ -10,7 +10,7 @@ public class Object {
     String description;
     String image;
 
-    public Object(){this.id =RandomUtils.getId();}
+    public Item(){this.id =RandomUtils.getId();}
 
     public String getId() {
         return id;
@@ -28,7 +28,7 @@ public class Object {
         this.image = image;
     }
 
-    public Object(String name, String description, int price, int damage, int health, String image){
+    public Item(String name, String description, int price, int damage, int health, String image){
         this();
         this.setName(name);
         this.setDescription(description);
