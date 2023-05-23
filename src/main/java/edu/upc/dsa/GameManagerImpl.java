@@ -134,10 +134,7 @@ public class GameManagerImpl implements GameManager{
         } finally {
             session.close();
         }
-
-
         return users;
-        //return null;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////

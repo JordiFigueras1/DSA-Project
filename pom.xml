@@ -60,6 +60,7 @@
             <artifactId>swagger-jersey2-jaxrs</artifactId>
             <version>${swagger-jersey2-jaxrs.version}</version>
         </dependency>
+
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>

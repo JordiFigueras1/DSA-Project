@@ -93,6 +93,7 @@ public class GameService {
     })
     @Path("/{mail}&{password}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response authentificate(@PathParam("mail") String mail, @PathParam("password") String password) {
 
         User user = this.gm.authentification(mail, password);
@@ -141,6 +142,7 @@ public class GameService {
 
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response newUser(User u) {
 
         User t = this.gm.addUser(u);
