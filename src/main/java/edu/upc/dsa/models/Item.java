@@ -1,24 +1,16 @@
 package edu.upc.dsa.models;
-import edu.upc.dsa.util.RandomUtils;
+
 public class Item {
     //String id;
     String name;
     int price;
     int damage;
     int health;
-    int nObjects;
+    int nItems;
     String description;
     String image;
 
     public Item(){}
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public Item(String name, String description, int price, int damage, int health, String image){
         this();
@@ -50,7 +42,7 @@ public class Item {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -58,7 +50,7 @@ public class Item {
         return damage;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(Integer damage) {
         this.damage = damage;
     }
 
@@ -66,15 +58,23 @@ public class Item {
         return health;
     }
 
-    public void setHealth(int health) {
+    public void setHealth(Integer health) {
         this.health = health;
     }
 
-    public int getnObjects() {
-        return nObjects;
+    public int getNItems() {
+        return nItems;
     }
 
-    public void setnObjects(int nObjects) {
-        this.nObjects = nObjects;
+    public void setNItems(Integer nObjects) {
+        this.nItems = nObjects;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

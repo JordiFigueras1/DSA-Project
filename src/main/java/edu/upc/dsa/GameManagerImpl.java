@@ -4,23 +4,23 @@ import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
 import edu.upc.dsa.models.Item;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import org.apache.log4j.Logger;
 public class GameManagerImpl implements GameManager{
     private static GameManager instance;
-    protected List<Item> objects;
     final static Logger logger = Logger.getLogger(GameManagerImpl.class);
 
     private GameManagerImpl() {
-        this.objects = new LinkedList<>();
     }
 
     public static GameManager getInstance() {
         if (instance==null) instance = new GameManagerImpl();
         return instance;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////// USERS ////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public int size() {
         int ret = this.getUsers().size();
@@ -137,37 +137,96 @@ public class GameManagerImpl implements GameManager{
         return users;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////// ITEMS ////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public Item addItem(Item i) {
+
+        logger.info("new item : " + i + " should be add");
+        Session session = null;
+        Item item = null;
+        int userID = 0;
+
+        try {
+            session = FactorySession.openSession();
+            userID = session.getID(i);
+
+            if (userID == 0) {
+                item = i;
+                session.save(item);
+                logger.info("new item " + i + " added");
+            } else {
+                logger.warn("item is already existing for this mail");
+            }
+        } catch (Exception e) {
+        } finally {
+            session.close();
+        }
+        return item;
+    }
+
+    public Item addItem(String name, String description, int price, int damage, int health, String image) {
+        return this.addItem(new Item(name, description, price, damage, health, image));
+    }
+
+    public Item addItem(String name, String description, int price, int damage, int health) {
+        return addItem(name, description, price, damage, health, null);
+    }
+
+    public Item getItem(int id) {
+
+        logger.info("we want to get item associated to id " + id);
+
+        Session session = null;
+        Item item = null;
+
+        try {
+            session = FactorySession.openSession();
+            item = (Item) session.getByID(Item.class, id);
+
+        } catch (Exception e) {
+        } finally {
+            session.close();
+        }
+        if (item != null) {
+            logger.info("the item is " + item);
+        } else {
+            logger.info("item not found");
+        }
+        return item;
+    }
+
+    @Override
+    public List<Item> getAllItems() {
+
+        Session session = null;
+        List<Item> items = null;
+
+        try {
+            session = FactorySession.openSession();
+            items = session.findAll(Item.class);
+            logger.info("items are : " + items);
+
+
+        } catch (Exception e) {
+        } finally {
+            session.close();
+        }
+        return items;
+    }
+
+    @Override
+    public int sizeItems() {
+        int ret = this.getAllItems().size();
+        logger.info("size " + ret);
+
+        return ret;
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
      ///////////////////////////////// After this line, none database implemented ////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    public Item addObject(Item o) {
 
-        logger.info("new objeto : " + o + " should be add");
-
-        this.objects.add(o);
-
-        logger.info("new object " + o + " added");
-        return o;
-    }
-
-    public Item addObject(String name, String description, int price, int damage, int health, String image) {
-        return this.addObject(new Item(name, description, price, damage, health, image));
-    }
-
-    public Item addObject(String name, String description, int price, int damage, int health) {
-      return addObject(name, description, price, damage, health, null);
-    }
-
-    @Override
-    public int sizeObjects() {
-        logger.info("El tamaño de la lista de objects es :" + objects.size());
-        return this.objects.size();
-    }
-
-    @Override
-    public List<Item> getAllObjects() {
-        return this.objects;
-    }
 
     @Override
     public User deleteUser(int id) {

@@ -1,5 +1,6 @@
 package edu.upc.dsa;
 
+import edu.upc.dsa.models.Item;
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
 import org.junit.Assert;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameManagerTest {
+
+    //////////////////////////////////////////////// Users ////////////////////////////////////////////////
 
     @Test
     public void addUserTest() {
@@ -57,5 +60,20 @@ public class GameManagerTest {
         List<User> users;
         users = gm.getUsers();
         System.out.println(users);
+    }
+
+
+    //////////////////////////////////////////////// Items ////////////////////////////////////////////////
+
+    @Test
+    public void addItemTest() {
+        GameManager gm = GameManagerImpl.getInstance();
+        Item i = new Item("épée de fou", "", 1000, 1, 100, "");
+        Item item = gm.addItem(i);
+        Item item1 = gm.addItem(i);
+        Item item2 = gm.addItem(new Item("épée de fou", "zdhzked", 0, 0, 0, ""));
+        Assert.assertEquals(item, i);
+        Assert.assertEquals(item1, null);
+        Assert.assertEquals(item2, null);
     }
 }

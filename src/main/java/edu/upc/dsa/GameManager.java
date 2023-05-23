@@ -10,12 +10,13 @@ public interface GameManager {
     public User addUser(String  mail, String username, String password);
     public User addUser(User u);
     public User getUser (int id);
-    public int sizeObjects();
+    public int sizeItems();
 
-    public Item addObject(Item o);
-    public Item addObject(String name, String description, int price, int damage, int health, String image);
-    public Item addObject(String name, String description, int price, int damage, int health);
-    public List<Item> getAllObjects();
+    public Item addItem(Item i);
+    public Item addItem(String name, String description, int price, int damage, int health, String image);
+    public Item addItem(String name, String description, int price, int damage, int health);
+    public Item getItem (int id);
+    public List<Item> getAllItems();
 
     public User loginUsuario(VOCredentials credenciales);
 
