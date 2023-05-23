@@ -44,7 +44,7 @@ public class GameService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUsers() {
 
-        List<User> users = this.gm.findAll();
+        List<User> users = this.gm.getUsers();
 
         GenericEntity<List<User>> entity = new GenericEntity<List<User>>(users) {};
         return Response.status(201).entity(entity).build();
@@ -78,7 +78,7 @@ public class GameService {
     })
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("id") String id) {
+    public Response getUser(@PathParam("id") int id) {
         User u = this.gm.getUser(id);
 
         if (u == null) {return Response.status(404).build();}
@@ -108,7 +108,7 @@ public class GameService {
             @ApiResponse(code = 404, message = "User not found")
     })
     @Path("/{id}")
-    public Response deleteUser(@PathParam("id") String id) {
+    public Response deleteUser(@PathParam("id") int id) {
         User t = this.gm.deleteUser(id);
 
         if (t == null) {return Response.status(404).build();}

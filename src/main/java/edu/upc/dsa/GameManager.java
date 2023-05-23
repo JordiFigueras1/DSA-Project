@@ -9,7 +9,7 @@ import java.util.List;
 public interface GameManager {
     public User addUser(String  mail, String username, String password);
     public User addUser(User u);
-    public User getUser (String id);
+    public User getUser (int id);
     public int sizeObjects();
 
     public Item addObject(Item o);
@@ -20,8 +20,8 @@ public interface GameManager {
     public User loginUsuario(VOCredentials credenciales);
 
     //public VOCredentials getCredentials(User u);
-    public List<User> findAll();
-    public User deleteUser(String id);
+    public List<User> getUsers();
+    public User deleteUser(int id);
     public User updateUser(User u);
     public User authentification(String mail, String password);
 

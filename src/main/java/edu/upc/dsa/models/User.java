@@ -1,13 +1,11 @@
 package edu.upc.dsa.models;
 
-import edu.upc.dsa.util.RandomUtils;
-
 public class User {
 
-    String id;
+    //String id;
     String mail;
-    String username;
     String password;
+    String username;
     int lifePoint;
     int coins;
 
@@ -16,12 +14,12 @@ public class User {
         return lifePoint;
     }
 
-    public void setLifePoint(int lifePoint) {
+    public void setLifePoint(Integer lifePoint) {
         this.lifePoint = lifePoint;
     }
 
-    public User() {this.id = RandomUtils.getId();}
-    public User(String mail, String username, String password) {
+    public User() {}
+    public User(String mail, String password, String username) {
         this();
         this.setMail(mail);
         this.setUsername(username);
@@ -51,19 +49,11 @@ public class User {
         this.password=password;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public int getCoins() {
         return coins;
     }
 
-    public void setCoins(int coins) {
+    public void setCoins(Integer coins) {
         this.coins = coins;
     }
 
