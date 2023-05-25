@@ -91,6 +91,7 @@ public class GameService {
     })
     @Path("/users/login")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response logIn(VOCredentials credentials) {
         System.out.println("-----LOGIN-----");
         System.out.println("Mail: "+ credentials.getMail());
