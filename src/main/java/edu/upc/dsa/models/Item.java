@@ -1,24 +1,27 @@
 package edu.upc.dsa.models;
 
+import edu.upc.dsa.util.ObjectHelper;
+
 public class Item {
     //String id;
     String name;
     int price;
     int damage;
     int health;
-    int nItems;
+    String type;
     String description;
     String image;
 
     public Item(){}
 
-    public Item(String name, String description, int price, int damage, int health, String image){
+    public Item(String name, String description, int price, int damage, int health, String type, String image){
         this();
         this.setName(name);
         this.setDescription(description);
         this.setPrice(price);
         this.setDamage(damage);
         this.setHealth(health);
+        this.setType(type);
         this.setImage(image);
 
     }
@@ -46,28 +49,26 @@ public class Item {
         this.price = price;
     }
 
-    public int getDamage() {
-        return damage;
-    }
-
     public void setDamage(Integer damage) {
         this.damage = damage;
     }
-
-    public int getHealth() {
-        return health;
+    public int getDamage() {
+        return damage;
     }
 
     public void setHealth(Integer health) {
         this.health = health;
     }
-
-    public int getNItems() {
-        return nItems;
+    public int getHealth() {
+        return health;
     }
 
-    public void setNItems(Integer nObjects) {
-        this.nItems = nObjects;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getImage() {
@@ -76,5 +77,18 @@ public class Item {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public boolean isEquals(Item i) throws NoSuchMethodException {
+        for (String field : ObjectHelper.getFields(this)){
+            try {
+                if (!(ObjectHelper.getter(this, field) == ObjectHelper.getter(i, field))) {
+                    return false;
+                }
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return true;
     }
 }

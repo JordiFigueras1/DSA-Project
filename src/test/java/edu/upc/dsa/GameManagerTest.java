@@ -1,11 +1,13 @@
 package edu.upc.dsa;
 
+import edu.upc.dsa.models.Inventory;
 import edu.upc.dsa.models.Item;
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +64,17 @@ public class GameManagerTest {
         System.out.println(users);
     }
 
+    @Test
+    public void upadateTest() {
+        GameManager gm = GameManagerImpl.getInstance();
+        User u = new User("clement@gmail.com", "1234", "cacaboudin");
+        User u1 = new User("clertyu", "1234", "cacaboudin");
+        User user = gm.updateUser(u);
+        User user1 = gm.updateUser(u1);
+        Assert.assertEquals(user, u);
+        Assert.assertEquals(user1, null);
+    }
+
 
     //////////////////////////////////////////////// Items ////////////////////////////////////////////////
 
@@ -75,5 +88,58 @@ public class GameManagerTest {
         Assert.assertEquals(item, i);
         Assert.assertEquals(item1, null);
         Assert.assertEquals(item2, null);
+    }
+
+    @Test
+    public void addInventoryTest() throws SQLException {
+        GameManager gm = GameManagerImpl.getInstance();
+        Inventory inv;
+        Inventory inv1;
+        Inventory inv2;
+        Inventory inv3;
+        Inventory inv4;
+        Inventory inv5;
+        Inventory inv6;
+        Item i = gm.getItem(11);
+        Item i1 = gm.getItem(12);
+        Item i2 = gm.getItem(13);
+        Item i3 = gm.getItem(14);
+        Item item = new Item("épée de fou", "", 1000, 1, 100, "");
+        User u = gm.getUser(82);
+        User u1 = new User("clertyu", "1234", "cacaboudin");
+        inv = gm.addInInventory(u, i);
+        inv1 = gm.addInInventory(u, i1);
+        inv2 = gm.addInInventory(u, i2);
+        inv3 = gm.addInInventory(u, i3);
+        inv4 = gm.addInInventory(u, item);
+        inv5 = gm.addInInventory(u1, i);
+        inv6 = gm.addInInventory(u, item);
+        Assert.assertEquals(inv4, null);
+        Assert.assertEquals(inv5, null);
+        Assert.assertEquals(inv6, null);
+    }
+
+    @Test
+    public void deleteInventoryTest() throws SQLException, NoSuchMethodException {
+        GameManager gm = GameManagerImpl.getInstance();
+        Inventory inv;
+        Inventory inv1;
+        Inventory inv2;
+        Inventory inv3;
+
+        Item i1 = gm.getItem(12);
+        User u = gm.getUser(82);
+
+        Item item = new Item("épée de fou", "", 1000, 1, 100, "");
+        User u1 = new User("clertyu", "1234", "cacaboudin");
+
+        inv = gm.deleteInInventory(u, i1);
+        inv1 = gm.deleteInInventory(u, item);
+        inv2 = gm.deleteInInventory(u1, i1);
+        inv3 = gm.deleteInInventory(u1, item);
+
+        Assert.assertEquals(inv1, null);
+        Assert.assertEquals(inv2, null);
+        Assert.assertEquals(inv3, null);
     }
 }

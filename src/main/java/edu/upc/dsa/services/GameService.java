@@ -29,10 +29,10 @@ public class GameService {
             this.gm.addUser("jordi@gmail.com", "Jordi", "1234");
             this.gm.addUser("bryan@gmail.com", "Bryan", "1234");
             this.gm.addUser("clement@gmail.com", "Clement", "1234");
-            this.gm.addItem("ESPADA", "espada de doble mano forjada por herreros de rivendel", 15, 10, 0, "https://espadasdetoledo.com/images/stories/virtuemart/product/Battle_ready_sword.jpg");
-            this.gm.addItem("POCION", "Pocion curativa", 20, 0, 10,"");
-            this.gm.addItem("ESCUDO", "Proporciona defensa", 10, 0, 50, "");
-            this.gm.addItem("BASTON", "Pega ostias", 50, 100, 0, "");
+            this.gm.addItem("ESPADA", "espada de doble mano forjada por herreros de rivendel", 15, 10, 0,"" , "https://espadasdetoledo.com/images/stories/virtuemart/product/Battle_ready_sword.jpg");
+            this.gm.addItem("POCION", "Pocion curativa", 20, 0, 10, "", "");
+            this.gm.addItem("ESCUDO", "Proporciona defensa", 10, 0, 50, "", "");
+            this.gm.addItem("BASTON", "Pega ostias", 50, 100, 0, "", "");
         }
     }
     @GET
@@ -120,16 +120,36 @@ public class GameService {
     @PUT
     @ApiOperation(value = "update an User", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful"),
+            @ApiResponse(code = 201, message = "Successful",  response= User.class),
             @ApiResponse(code = 404, message = "User not found")
     })
     @Path("/users")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response updateUser(User u) {
 
         User user = this.gm.updateUser(u);
 
         if (user == null) {return Response.status(404).build();}
-        else {return Response.status(201).build();}
+        else {return Response.status(201).entity(u).build();}
+    }
+
+    @PUT
+    @ApiOperation(value = "Buy an item", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response= Item.class),
+            @ApiResponse(code = 404, message = "User not found")
+    })
+    @Path("/users/shop/{mail}&{password}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response buyItem(Item i, @PathParam("mail") String mail, @PathParam("password") String password) {
+
+        User u = this.gm.authentification(mail, password);
+        Item item = this.gm.buyItem(u, i);
+
+        if (item == null) {return Response.status(404).build();}
+        else {return Response.status(201).entity(i).build();}
     }
 
     @POST

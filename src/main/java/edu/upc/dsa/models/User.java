@@ -1,5 +1,7 @@
 package edu.upc.dsa.models;
 
+import edu.upc.dsa.util.ObjectHelper;
+
 public class User {
 
     //String id;
@@ -8,7 +10,6 @@ public class User {
     String username;
     int lifePoint;
     int coins;
-
 
     public int getLifePoint() {
         return lifePoint;
@@ -60,6 +61,18 @@ public class User {
     @Override
     public String toString() {
         return "User [mail=" + mail + ", username=" + username +", password=" + password + ", life points=" + lifePoint + "]";
+    }
+    public boolean isEquals(User u) throws NoSuchMethodException {
+        for (String field : ObjectHelper.getFields(this)){
+            try {
+                if (!(ObjectHelper.getter(this, field) == ObjectHelper.getter(u, field))) {
+                    return false;
+                }
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return true;
     }
 
 }

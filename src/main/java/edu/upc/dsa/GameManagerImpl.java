@@ -1,10 +1,13 @@
 package edu.upc.dsa;
 
+import edu.upc.dsa.models.Inventory;
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
 import edu.upc.dsa.models.Item;
 
 import java.util.List;
+
+import edu.upc.dsa.util.ObjectHelper;
 import org.apache.log4j.Logger;
 public class GameManagerImpl implements GameManager{
     private static GameManager instance;
@@ -137,6 +140,28 @@ public class GameManagerImpl implements GameManager{
         return users;
     }
 
+    @Override
+    public User updateUser(User u) {
+
+        Session session = null;
+        User user = null;
+        boolean isUpdate = false;
+
+        try {
+            session = FactorySession.openSession();
+            isUpdate = session.update(u);
+            if (isUpdate) {
+                user = u;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return user;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////// ITEMS ////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,12 +190,12 @@ public class GameManagerImpl implements GameManager{
         return item;
     }
 
-    public Item addItem(String name, String description, int price, int damage, int health, String image) {
-        return this.addItem(new Item(name, description, price, damage, health, image));
+    public Item addItem(String name, String description, int price, int damage, int health, String type, String image) {
+        return this.addItem(new Item(name, description, price, damage, health, type, image));
     }
 
     public Item addItem(String name, String description, int price, int damage, int health) {
-        return addItem(name, description, price, damage, health, null);
+        return addItem(name, description, price, damage, health, "", null);
     }
 
     public Item getItem(int id) {
@@ -223,6 +248,130 @@ public class GameManagerImpl implements GameManager{
         return ret;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public Inventory addInInventory(User user, Item item) {
+
+        Session session = null;
+        Inventory inventory;
+        Inventory myInventory;
+
+        try {
+            session = FactorySession.openSession();
+            int idUser = session.getID(user);
+            int idItem = session.getID(item);
+            inventory = (Inventory) session.getByID(Inventory.class, idUser);
+
+            if ((inventory == null) && (idItem != 0) && (idUser != 0)) {
+                myInventory = new Inventory(idUser);
+                myInventory.setItem1(idItem);
+                session.save(myInventory);
+                logger.info("Creation of the inventory & add of the item : " + item + " in the inventory of the user : " + user);
+                return myInventory;
+            } else if ((idItem != 0) && (idUser != 0)){
+                String[] fields = ObjectHelper.getFields(inventory);
+                int n = fields.length;
+                int i = 1;
+                while (i<n) {
+                    int idI = (int) ObjectHelper.getter(inventory, fields[i]);
+                    if (idI == 0) {
+                        ObjectHelper.setter(inventory, fields[i], idItem);
+                        session.update(inventory);
+                        logger.info("Add of the item : " + item + " in the inventory of the user : " + user);
+                        return inventory;
+                    } else if (idI == idItem) {
+                        logger.warn("you already have this item");
+                        return null;
+                    }
+                    i ++;
+                }
+                logger.warn("Inventory is full");
+                return null;
+            } else {
+                logger.warn("User or item don't exist anymore");
+                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        logger.warn("User or item don't exist anymore");
+        return null;
+    }
+
+    @Override
+    public Inventory deleteInInventory(User user, Item item) throws NoSuchMethodException {
+
+        Session session = null;
+        Inventory inventory;
+        Inventory myInventory;
+
+        try {
+            session = FactorySession.openSession();
+            int idUser = session.getID(user);
+            if (idUser == 0) {
+                logger.warn("user isn't existing");
+                return null;
+            }
+            int idItem = session.getID(item);
+            if (idItem == 0) {
+                logger.warn("user isn't existing");
+                return null;
+            }
+            inventory = (Inventory) session.getByID(Inventory.class, idUser);
+
+            if (inventory == null) {
+                logger.warn("Inventory is empty !");
+                return null;
+            } else {
+                String[] fields = ObjectHelper.getFields(inventory);
+                int n = fields.length;
+                int i = 1;
+                while (i < n) {
+                    int idI = (int) ObjectHelper.getter(inventory, fields[i]);
+                    if (idI == idItem) {
+                        ObjectHelper.setter(inventory, fields[i], 0);
+                        session.update(inventory);
+                        logger.info("item deleted to the inventory");
+                        return inventory;
+                    }
+                    i++;
+                }
+                logger.warn("item isn't in the inventory");
+                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Item buyItem(User user, Item item) {
+
+        int price = item.getPrice();
+        int budget = user.getCoins();
+       try {
+           if ((budget - price) < 0) {
+               logger.warn("you don't have enough money");
+               return null;
+           } else {
+               user.setCoins(budget - price);
+               this.addInInventory(user, item);
+               this.updateUser(user);
+               return item;
+           }
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+       return null;
+    }
+
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
      ///////////////////////////////// After this line, none database implemented ////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -233,19 +382,11 @@ public class GameManagerImpl implements GameManager{
 
         User u = this.getUser(id);
 
-        if (u==null) {
+        if (u == null) {
             logger.warn("none user associated to : " + id);
+        } else {
+            logger.info(u + " deleted ");
         }
-        else {
-            logger.info(u +" deleted ");
-        }
-        return null;
-    }
-
-    // We will  need to do a function  to update only the password
-    // Here the function is used to only change username (for the moment)
-    @Override
-    public User updateUser(User u) {
         return null;
     }
 }

@@ -1,9 +1,11 @@
 package edu.upc.dsa;
 
+import edu.upc.dsa.models.Inventory;
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
 import edu.upc.dsa.models.Item;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface GameManager {
@@ -13,7 +15,7 @@ public interface GameManager {
     public int sizeItems();
 
     public Item addItem(Item i);
-    public Item addItem(String name, String description, int price, int damage, int health, String image);
+    public Item addItem(String name, String description, int price, int damage, int health, String type, String image);
     public Item addItem(String name, String description, int price, int damage, int health);
     public Item getItem (int id);
     public List<Item> getAllItems();
@@ -27,5 +29,8 @@ public interface GameManager {
     public User authentification(String mail, String password);
 
     public int size();
+    public Inventory addInInventory(User user, Item item) throws SQLException;
+    public Inventory deleteInInventory(User user, Item item) throws NoSuchMethodException;
+    public Item buyItem(User user, Item item);
 
 }

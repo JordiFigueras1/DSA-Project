@@ -21,7 +21,7 @@ public class FactorySession {
         try {
             conn =
                     DriverManager.getConnection("jdbc:mariadb://localhost:3306/gamedb",
-                            "marin","hello");
+                            "dsa","hello");
 
         } catch (SQLException ex) {
             // handle any errors

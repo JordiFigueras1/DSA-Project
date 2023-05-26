@@ -1,7 +1,5 @@
 package edu.upc.dsa;
 
-import edu.upc.dsa.models.User;
-
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +9,9 @@ public interface Session<E> {
     void close();
     Object getByID(Class theClass, int ID) throws NoSuchMethodException;
     int getID (Object entity) throws SQLException;
-    void update(Object object);
+    boolean update(Object object) throws SQLException;
     void delete(Object object);
+    void createInventory(Class myClass) throws NoSuchMethodException;
     List<Object> findAll(Class theClass) throws NoSuchMethodException;
     List<Object> findAll(Class theClass, HashMap params);
     List<Object> query(String query, Class theClass, HashMap params);

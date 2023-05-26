@@ -20,4 +20,10 @@ public class QueryHelperTest {
         Assert.assertEquals("SELECT ID FROM Item WHERE name=?",
                 QueryHelper.createQuerySELECTID(new Item("sword", "cut your head", 10, 20, 90, "image.png")));
     }
+
+    @Test
+    public void testQueryUPDATE() {
+        System.out.println(QueryHelper.createQueryUPDATE(new Item("sword", "cut your head", 10, 20, 90, "image.png")));
+    }
+
 }

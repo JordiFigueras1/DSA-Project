@@ -1,5 +1,6 @@
 package edu.upc.dsa;
 
+import edu.upc.dsa.models.Item;
 import edu.upc.dsa.models.User;
 import org.junit.Assert;
 import org.junit.Test;
@@ -88,5 +89,45 @@ public class SessionImplTest {
         }
         //Assert.assertEquals(users1, users3);
         Assert.assertEquals(users2, users4);
+    }
+
+    @Test
+    public void updateTest() throws SQLException {
+        Session session = null;
+
+        User u = new User("jordi@gmail.com", "1234", "119");
+        User t = new User("marO@gmail.com", "mdolle", "119");
+
+        try {
+            session = FactorySession.openSession();
+            boolean herve = session.update(u);
+            boolean daniel = session.update(t);
+            session.save(t);
+            t.setUsername("OlivierGiroud");
+            boolean sarah = session.update(t);
+
+            Assert.assertTrue(herve);
+            Assert.assertFalse(daniel);
+            Assert.assertTrue(sarah);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    @Test
+    public void createInventoryTest() throws SQLException {
+
+        Session session = null;
+
+        try {
+            session = FactorySession.openSession();
+            session.createInventory(Item.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 }

@@ -12,16 +12,21 @@ public class QueryHelper {
         sb.append("(");
 
         String [] fields = ObjectHelper.getFields(entity);
-
         sb.append("ID");
         for (String field: fields) {
-            sb.append(", ").append(field);
+            if (field == "id") {
+            } else {
+                sb.append(", ").append(field);
+            }
         }
 
         sb.append(") VALUES (?");
 
         for (String field: fields) {
-            sb.append(", ?");
+            if (field == "id") {
+            } else {
+                sb.append(", ?");
+            }
         }
 
         sb.append(")");
