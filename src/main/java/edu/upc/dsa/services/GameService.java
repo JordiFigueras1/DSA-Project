@@ -32,7 +32,9 @@ public class GameService {
             this.gm.addItem("Sword", "double handed sword forged by smiths of rivendell", 15, 10, 0,"" , "https://www.vhv.rs/dpng/d/540-5408508_pe-de-pirate-hd-png-download.png");
             this.gm.addItem("Potion", "healing potion", 20, 0, 10, "", "https://w7.pngwing.com/pngs/1019/181/png-transparent-red-potion-thumbnail.png");
             this.gm.addItem("Shield", "provide defence", 10, 0, 50, "", "https://fortnite-api.com/images/cosmetics/br/bid_975_journeymentor_nff9c/icon.png");
-            this.gm.addItem("Stick", "hit ennemy", 50, 100, 0, "", "https://as2.ftcdn.net/v2/jpg/00/55/95/49/1000_F_55954917_wBRjXVoOqi0tCo1hBFZv0H3Ef2WkIvu5.jpg");
+            this.gm.addItem("Stick", "hit ennemy", 12, 100, 0, "", "https://as2.ftcdn.net/v2/jpg/00/55/95/49/1000_F_55954917_wBRjXVoOqi0tCo1hBFZv0H3Ef2WkIvu5.jpg");
+            this.gm.addItem("Nunchaku", "japan arm", 34, 43, 0, "", "https://as2.ftcdn.net/v2/jpg/00/55/95/49/1000_F_55954917_wBRjXVoOqi0tCo1hBFZv0H3Ef2WkIvu5.jpg");
+            this.gm.addItem("AK47", "Shot head ball", 23, 100, 0,"" , "https://e7.pngegg.com/pngimages/640/729/png-clipart-ak-47-assault-rifle-gun-automatic-rifle-ak-47-kalashnikov-airsoft-desktop-wallpaper.png");
         }
     }
 
