@@ -162,6 +162,32 @@ public class GameManagerImpl implements GameManager{
         return user;
     }
 
+    @Override
+    public User deleteUser(String mail, String password) {
+
+        Session session = null;
+        User user = null;
+
+        try {
+            session = FactorySession.openSession();
+            user = this.authentification(mail, password);
+
+            if (session.getID(user) == 0) {
+                logger.warn("user isn't exist in database");
+                return null;
+            } else {
+                session.delete(user);
+                logger.info("user : "+ user +" deleted");
+                return user;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return null;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////// ITEMS ////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -248,7 +274,9 @@ public class GameManagerImpl implements GameManager{
         return ret;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////// INVENTORY ////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public Inventory addInInventory(User user, Item item) {
@@ -307,7 +335,6 @@ public class GameManagerImpl implements GameManager{
 
         Session session = null;
         Inventory inventory;
-        Inventory myInventory;
 
         try {
             session = FactorySession.openSession();
@@ -371,22 +398,25 @@ public class GameManagerImpl implements GameManager{
        return null;
     }
 
+    @Override
+    public Item sellItem(User user, Item item) {
+
+        int price = item.getPrice();
+        int budget = user.getCoins();
+        try {
+            user.setCoins(budget + price);
+            this.deleteInInventory(user, item);
+            this.updateUser(user);
+            return item;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
      ///////////////////////////////// After this line, none database implemented ////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    @Override
-    public User deleteUser(int id) {
-
-        User u = this.getUser(id);
-
-        if (u == null) {
-            logger.warn("none user associated to : " + id);
-        } else {
-            logger.info(u + " deleted ");
-        }
-        return null;
-    }
 }

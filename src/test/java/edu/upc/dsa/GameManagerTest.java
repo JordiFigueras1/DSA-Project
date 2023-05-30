@@ -81,10 +81,10 @@ public class GameManagerTest {
     @Test
     public void addItemTest() {
         GameManager gm = GameManagerImpl.getInstance();
-        Item i = new Item("épée de fou", "", 1000, 1, 100, "");
+        Item i = new Item("épée de fou", "", 1000, 1, 100,"", "");
         Item item = gm.addItem(i);
         Item item1 = gm.addItem(i);
-        Item item2 = gm.addItem(new Item("épée de fou", "zdhzked", 0, 0, 0, ""));
+        Item item2 = gm.addItem(new Item("épée de fou", "zdhzked", 0, 0, 0,"", ""));
         Assert.assertEquals(item, i);
         Assert.assertEquals(item1, null);
         Assert.assertEquals(item2, null);
@@ -104,7 +104,7 @@ public class GameManagerTest {
         Item i1 = gm.getItem(12);
         Item i2 = gm.getItem(13);
         Item i3 = gm.getItem(14);
-        Item item = new Item("épée de fou", "", 1000, 1, 100, "");
+        Item item = new Item("épée de fou", "", 1000, 1, 100,"", "");
         User u = gm.getUser(82);
         User u1 = new User("clertyu", "1234", "cacaboudin");
         inv = gm.addInInventory(u, i);
@@ -130,7 +130,7 @@ public class GameManagerTest {
         Item i1 = gm.getItem(12);
         User u = gm.getUser(82);
 
-        Item item = new Item("épée de fou", "", 1000, 1, 100, "");
+        Item item = new Item("épée de fou", "", 1000, 1, 100,"", "");
         User u1 = new User("clertyu", "1234", "cacaboudin");
 
         inv = gm.deleteInInventory(u, i1);

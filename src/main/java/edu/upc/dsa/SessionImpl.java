@@ -152,6 +152,20 @@ public class SessionImpl implements Session {
 
     public void delete(Object object) {
 
+        PreparedStatement pstm = null;
+
+        try {
+            int id = this.getID(object);
+            System.out.println(id);
+            String selectQuery = QueryHelper.createQueryDELETE(object);
+            pstm = conn.prepareStatement(selectQuery);
+            pstm.setObject(1, id);
+
+            pstm.executeQuery();
+
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void createInventory(Class myClass) throws NoSuchMethodException {

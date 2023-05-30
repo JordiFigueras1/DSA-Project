@@ -8,7 +8,7 @@ public class QueryHelper {
     public static String createQueryINSERT(Object entity) {
 
         StringBuffer sb = new StringBuffer("INSERT INTO ");
-        sb.append(entity.getClass().getSimpleName()).append(" ");
+        sb.append(entity.getClass().getSimpleName().toLowerCase()).append(" ");
         sb.append("(");
 
         String [] fields = ObjectHelper.getFields(entity);
@@ -36,13 +36,13 @@ public class QueryHelper {
 
     public static String createQuerySELECTALL(Class theClass) {
         StringBuffer sb = new StringBuffer();
-        sb.append("SELECT * FROM ").append(theClass.getSimpleName());
+        sb.append("SELECT * FROM ").append(theClass.getSimpleName().toLowerCase());
 
         return sb.toString();
     }
     public static String createQuerySELECTbyID(Object entity) {
         StringBuffer sb = new StringBuffer();
-        sb.append("SELECT * FROM ").append(entity.getClass().getSimpleName());
+        sb.append("SELECT * FROM ").append(entity.getClass().getSimpleName().toLowerCase());
         sb.append(" WHERE ID = ?");
 
         return sb.toString();
@@ -50,7 +50,7 @@ public class QueryHelper {
 
     public static String createQuerySELECTID(Object entity) {
         StringBuffer sb = new StringBuffer();
-        sb.append("SELECT ID FROM ").append(entity.getClass().getSimpleName());
+        sb.append("SELECT ID FROM ").append(entity.getClass().getSimpleName().toLowerCase());
         sb.append(" WHERE ");
 
         String [] fields = ObjectHelper.getFields(entity);
@@ -60,7 +60,7 @@ public class QueryHelper {
 
     public static String createQueryUPDATE(Object entity) {
         StringBuffer sb = new StringBuffer();
-        sb.append("UPDATE ").append(entity.getClass().getSimpleName());
+        sb.append("UPDATE ").append(entity.getClass().getSimpleName().toLowerCase());
         sb.append(" SET ");
 
         String [] fields = ObjectHelper.getFields(entity);
@@ -74,6 +74,14 @@ public class QueryHelper {
             }
         }
         sb.append(" WHERE ID = ?");
+
+        return sb.toString();
+    }
+
+    public static String createQueryDELETE(Object entity) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("DELETE FROM ").append(entity.getClass().getSimpleName().toLowerCase());
+        sb.append(" WHERE ID=? ");
 
         return sb.toString();
     }

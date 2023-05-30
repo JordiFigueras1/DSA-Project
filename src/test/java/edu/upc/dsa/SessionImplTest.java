@@ -130,4 +130,19 @@ public class SessionImplTest {
             session.close();
         }
     }
+
+    @Test
+    public void deleteTest() {
+        Session session = null;
+        User user = new User("jordi@gmail.com", "1234", "Jordi");
+
+        try {
+            session = FactorySession.openSession();
+            session.delete(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
 }

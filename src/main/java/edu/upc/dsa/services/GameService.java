@@ -105,15 +105,19 @@ public class GameService {
     @DELETE
     @ApiOperation(value = "delete an User", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful"),
+            @ApiResponse(code = 201, message = "Successful", response= User.class),
             @ApiResponse(code = 404, message = "User not found")
     })
-    @Path("/users/{id}")
-    public Response deleteUser(@PathParam("id") int id) {
-        User t = this.gm.deleteUser(id);
+    @Path("/users/delete/{mail}&{password}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteUser(@PathParam("mail") String mail, @PathParam("password") String password) {
+
+        System.out.println("caca");
+        User t = this.gm.deleteUser(mail, password);
 
         if (t == null) {return Response.status(404).build();}
-        else {return Response.status(201).build();}
+        else {return Response.status(201).entity(t).build();}
     }
 
 
@@ -147,6 +151,24 @@ public class GameService {
 
         User u = this.gm.authentification(mail, password);
         Item item = this.gm.buyItem(u, i);
+
+        if (item == null) {return Response.status(404).build();}
+        else {return Response.status(201).entity(i).build();}
+    }
+
+    @PUT
+    @ApiOperation(value = "Sell an item", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response= Item.class),
+            @ApiResponse(code = 404, message = "User not found")
+    })
+    @Path("/users/shop/{mail}&{password}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response sellItem(Item i, @PathParam("mail") String mail, @PathParam("password") String password) {
+
+        User u = this.gm.authentification(mail, password);
+        Item item = this.gm.sellItem(u, i);
 
         if (item == null) {return Response.status(404).build();}
         else {return Response.status(201).entity(i).build();}

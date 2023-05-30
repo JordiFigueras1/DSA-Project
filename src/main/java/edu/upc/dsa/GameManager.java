@@ -24,7 +24,7 @@ public interface GameManager {
 
     //public VOCredentials getCredentials(User u);
     public List<User> getUsers();
-    public User deleteUser(int id);
+    public User deleteUser(String mail, String password);
     public User updateUser(User u);
     public User authentification(String mail, String password);
 
@@ -32,5 +32,6 @@ public interface GameManager {
     public Inventory addInInventory(User user, Item item) throws SQLException;
     public Inventory deleteInInventory(User user, Item item) throws NoSuchMethodException;
     public Item buyItem(User user, Item item);
+    public Item sellItem(User user, Item item);
 
 }
