@@ -34,6 +34,6 @@ public interface GameManager {
     public Inventory deleteInInventory(User user, Item item) throws NoSuchMethodException;
     public Item buyItem(User user, Item item);
     public Item sellItem(User user, Item item);
-    public List<Item> getItemInInventory(User user);
+    public List<Item> getItemInInventory(String mail, String password);
 
 }

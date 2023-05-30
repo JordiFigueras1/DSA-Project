@@ -113,7 +113,7 @@ public class GameService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteUser(@PathParam("mail") String mail, @PathParam("password") String password) {
 
-        System.out.println("caca");
+
         User t = this.gm.deleteUser(mail, password);
 
         if (t == null) {return Response.status(404).build();}
@@ -248,11 +248,10 @@ public class GameService {
             @ApiResponse(code = 201, message = "Successful", response = Item.class, responseContainer="List"),
             @ApiResponse(code = 404, message = "User not found")
     })
-    @Path("/Users/inventory")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/Users/inventory/{mail}&{password}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getItemInInventory(User user) {
-        List<Item> items = this.gm.getItemInInventory(user);
+    public Response getItemInInventory(@PathParam("mail") String mail, @PathParam("password") String password) {
+        List<Item> items = this.gm.getItemInInventory(mail, password);
         GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(items){};
         if (items == null) {return Response.status(404).build();}
         else {return Response.status(201).entity(entity).build();}

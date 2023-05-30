@@ -6,7 +6,6 @@ import edu.upc.dsa.models.VOCredentials;
 import edu.upc.dsa.models.Item;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import edu.upc.dsa.util.ObjectHelper;
@@ -445,8 +444,9 @@ public class GameManagerImpl implements GameManager{
         return null;
     }
 
-    public List<Item> getItemInInventory(User user) {
+    public List<Item> getItemInInventory(String mail, String password) {
 
+        User user = this.authentification(mail, password);
         Session session = null;
         List<Item> items = new ArrayList<>();
         int userID = 0;
