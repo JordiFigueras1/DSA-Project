@@ -446,6 +446,7 @@ public class GameManagerImpl implements GameManager{
 
     public List<Item> getItemInInventory(String mail, String password) {
 
+        /// Attention, il y a un null qq part !!!
         User user = this.authentification(mail, password);
         Session session = null;
         List<Item> items = new ArrayList<>();
@@ -465,8 +466,10 @@ public class GameManagerImpl implements GameManager{
             if (inv == null) {
                 return items;
             } else {
-                for (String field : ObjectHelper.getFields(inv)) {
-                    itemId = (int) ObjectHelper.getter(inv, field);
+                String[] fields = ObjectHelper.getFields(inv);
+                int n = fields.length;
+                for (int i = 1; i < n; i++) {
+                    itemId = (int) ObjectHelper.getter(inv, fields[i]);
                     if (itemId != 0) {
                         item = (Item) session.getByID(Item.class, itemId);
                         items.add(item);
