@@ -240,4 +240,21 @@ public class GameService {
         if (i == null) {return Response.status(400).build();}
         else {return Response.status(201).entity(i).build();}
     }
+
+
+    @GET
+    @ApiOperation(value = "get all Items in the inventory", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Item.class, responseContainer="List"),
+            @ApiResponse(code = 404, message = "User not found")
+    })
+    @Path("/Users/inventory")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getItemInInventory(User user) {
+        List<Item> items = this.gm.getItemInInventory(user);
+        GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(items){};
+        if (items == null) {return Response.status(404).build();}
+        else {return Response.status(201).entity(entity).build();}
+    }
 }

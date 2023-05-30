@@ -5,6 +5,8 @@ import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
 import edu.upc.dsa.models.Item;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import edu.upc.dsa.util.ObjectHelper;
@@ -441,6 +443,42 @@ public class GameManagerImpl implements GameManager{
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Item> getItemInInventory(User user) {
+
+        Session session = null;
+        List<Item> items = new ArrayList<>();
+        int userID = 0;
+        int itemId = 0;
+        Inventory inv = null;
+        Item item = null;
+
+        try {
+            session = FactorySession.openSession();
+            userID = session.getID(user);
+            if (userID == 0) {
+                logger.warn("user is not exist");
+                return null;
+            }
+            inv = (Inventory) session.getByID(Inventory.class, userID);
+            if (inv == null) {
+                return items;
+            } else {
+                for (String field : ObjectHelper.getFields(inv)) {
+                    itemId = (int) ObjectHelper.getter(inv, field);
+                    if (itemId != 0) {
+                        item = (Item) session.getByID(Item.class, itemId);
+                        items.add(item);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return items;
     }
 
 
