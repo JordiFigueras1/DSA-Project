@@ -30,9 +30,9 @@ public class GameService {
             this.gm.addUser("bryan@gmail.com", "Bryan", "1234");
             this.gm.addUser("clement@gmail.com", "Clement", "1234");
             this.gm.addItem("Sword", "double handed sword forged by smiths of rivendell", 15, 10, 0,"" , "https://espadasdetoledo.com/images/stories/virtuemart/product/Battle_ready_sword.jpg");
-            this.gm.addItem("Potion", "healing potion", 20, 0, 10, "", "https://thumbs.dreamstime.com/z/potion-bottle-magic-elixir-cartoon-glass-flask-colorful-glowing-liquid-corkwood-plugs-witch-poison-gui-ui-game-assets-264211353.jpg");
+            this.gm.addItem("Potion", "healing potion", 20, 0, 10, "", "https://w7.pngwing.com/pngs/1019/181/png-transparent-red-potion-thumbnail.png");
             this.gm.addItem("Shield", "provide defence", 10, 0, 50, "", "https://fortnite-api.com/images/cosmetics/br/bid_975_journeymentor_nff9c/icon.png");
-            this.gm.addItem("Stick", "hit ennemy", 50, 100, 0, "", "https://cdn.shopify.com/s/files/1/0104/0629/7636/products/file_3_ad25a125-4d30-4bdd-9188-ac0404df3b45.jpg?v=1673880774&width=823");
+            this.gm.addItem("Stick", "hit ennemy", 50, 100, 0, "", "https://as2.ftcdn.net/v2/jpg/00/55/95/49/1000_F_55954917_wBRjXVoOqi0tCo1hBFZv0H3Ef2WkIvu5.jpg");
         }
     }
 
