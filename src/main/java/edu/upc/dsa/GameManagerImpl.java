@@ -417,9 +417,11 @@ public class GameManagerImpl implements GameManager{
                return null;
            } else {
                user.setCoins(budget - price);
-               this.addInInventory(user, item);
-               this.updateUser(user);
-               return item;
+               Inventory inv = this.addInInventory(user, item);
+               if (inv != null) {
+                   this.updateUser(user);
+                   return item;
+               }
            }
        } catch (Exception e) {
            e.printStackTrace();
