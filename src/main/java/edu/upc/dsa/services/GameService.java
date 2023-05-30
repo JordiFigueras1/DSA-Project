@@ -29,12 +29,16 @@ public class GameService {
             this.gm.addUser("jordi@gmail.com", "Jordi", "1234");
             this.gm.addUser("bryan@gmail.com", "Bryan", "1234");
             this.gm.addUser("clement@gmail.com", "Clement", "1234");
-            this.gm.addItem("ESPADA", "espada de doble mano forjada por herreros de rivendel", 15, 10, 0,"" , "https://espadasdetoledo.com/images/stories/virtuemart/product/Battle_ready_sword.jpg");
-            this.gm.addItem("POCION", "Pocion curativa", 20, 0, 10, "", "");
-            this.gm.addItem("ESCUDO", "Proporciona defensa", 10, 0, 50, "", "");
-            this.gm.addItem("BASTON", "Pega ostias", 50, 100, 0, "", "");
+            this.gm.addItem("Sword", "double handed sword forged by smiths of rivendell", 15, 10, 0,"" , "https://espadasdetoledo.com/images/stories/virtuemart/product/Battle_ready_sword.jpg");
+            this.gm.addItem("Potion", "healing potion", 20, 0, 10, "", "https://thumbs.dreamstime.com/z/potion-bottle-magic-elixir-cartoon-glass-flask-colorful-glowing-liquid-corkwood-plugs-witch-poison-gui-ui-game-assets-264211353.jpg");
+            this.gm.addItem("Shield", "provide defence", 10, 0, 50, "", "https://fortnite-api.com/images/cosmetics/br/bid_975_journeymentor_nff9c/icon.png");
+            this.gm.addItem("Stick", "hit ennemy", 50, 100, 0, "", "https://cdn.shopify.com/s/files/1/0104/0629/7636/products/file_3_ad25a125-4d30-4bdd-9188-ac0404df3b45.jpg?v=1673880774&width=823");
         }
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// GET ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @GET
     @ApiOperation(value = "get all Users", notes = "asdasd")
     @ApiResponses(value = {
@@ -48,8 +52,36 @@ public class GameService {
 
         GenericEntity<List<User>> entity = new GenericEntity<List<User>>(users) {};
         return Response.status(201).entity(entity).build();
-
     }
+
+    @GET
+    @ApiOperation(value = "get all Items", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Item.class, responseContainer="List"),
+    })
+    @Path("/items")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getObjects() {
+        List<Item> listItems = this.gm.getAllItems();
+        GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(listItems){};
+        return Response.status(201).entity(entity).build();
+    }
+
+    @GET
+    @ApiOperation(value = "get all Items in the inventory", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Item.class, responseContainer="List"),
+            @ApiResponse(code = 404, message = "User not found")
+    })
+    @Path("/users/inventory/{mail}&{password}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getItemInInventory(@PathParam("mail") String mail, @PathParam("password") String password) {
+        List<Item> items = this.gm.getItemInInventory(mail, password);
+        GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(items){};
+        if (items == null) {return Response.status(404).build();}
+        else {return Response.status(201).entity(entity).build();}
+    }
+
     @GET
     @ApiOperation(value = "get an User", notes = "asdasd")
     @ApiResponses(value = {
@@ -63,6 +95,21 @@ public class GameService {
 
         if (u == null) {return Response.status(404).build();}
         else  {return Response.status(201).entity(u).build();}
+    }
+
+    @GET
+    @ApiOperation(value = "get an Item", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Item.class),
+            @ApiResponse(code = 404, message = "Item not found")
+    })
+    @Path("/items/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getItem(@PathParam("id") int id) {
+        Item item = this.gm.getItem(id);
+
+        if (item == null) {return Response.status(404).build();}
+        else  {return Response.status(201).entity(item).build();}
     }
 
     @GET
@@ -81,6 +128,10 @@ public class GameService {
         if (user == null) {return Response.status(404).build();}
         else {return Response.status(201).entity(user).build();}
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// POST /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @POST
     @ApiOperation(value = "login", notes = "Realitzar el login")
@@ -102,24 +153,47 @@ public class GameService {
             return Response.status(201).entity(u).build();
     }
 
-    @DELETE
-    @ApiOperation(value = "delete an User", notes = "asdasd")
+    @POST
+    @ApiOperation(value = "create a new User", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response= User.class),
-            @ApiResponse(code = 404, message = "User not found")
+            @ApiResponse(code = 201, message = "Successful", response=User.class),
+            @ApiResponse(code = 400, message = "User already exist for this mail")
+
     })
-    @Path("/users/delete/{mail}&{password}")
+
+    @Path("/users/register")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteUser(@PathParam("mail") String mail, @PathParam("password") String password) {
+    public Response newUser(User u) {
 
+        User t = this.gm.addUser(u);
 
-        User t = this.gm.deleteUser(mail, password);
-
-        if (t == null) {return Response.status(404).build();}
-        else {return Response.status(201).entity(t).build();}
+        if (t == null) {return Response.status(400).build();}
+        else {return Response.status(201).entity(u).build();}
     }
 
+    @POST
+    @ApiOperation(value = "create a new Item", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response=Item.class),
+            @ApiResponse(code = 400, message = "item already exist for this name")
+
+    })
+
+    @Path("/items/register")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response newItem(Item item) {
+
+        Item i = this.gm.addItem(item);
+
+        if (i == null) {return Response.status(400).build();}
+        else {return Response.status(201).entity(i).build();}
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////// PUT /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @PUT
     @ApiOperation(value = "update an User", notes = "asdasd")
@@ -174,86 +248,26 @@ public class GameService {
         else {return Response.status(201).entity(i).build();}
     }
 
-    @POST
-    @ApiOperation(value = "create a new User", notes = "asdasd")
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////// DELETE /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @DELETE
+    @ApiOperation(value = "delete an User", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response=User.class),
-            @ApiResponse(code = 400, message = "User already exist for this mail")
-
-    })
-
-    @Path("/users/register")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response newUser(User u) {
-
-        User t = this.gm.addUser(u);
-
-        if (t == null) {return Response.status(400).build();}
-        else {return Response.status(201).entity(u).build();}
-    }
-
-    @GET
-    @ApiOperation(value = "get all Items", notes = "asdasd")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Item.class, responseContainer="List"),
-    })
-    @Path("/items")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getObjects() {
-        List<Item> listItems = this.gm.getAllItems();
-        GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(listItems){};
-        return Response.status(201).entity(entity).build();
-
-    }
-
-    @GET
-    @ApiOperation(value = "get an Item", notes = "asdasd")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Item.class),
-            @ApiResponse(code = 404, message = "Item not found")
-    })
-    @Path("/items/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getItem(@PathParam("id") int id) {
-        Item item = this.gm.getItem(id);
-
-        if (item == null) {return Response.status(404).build();}
-        else  {return Response.status(201).entity(item).build();}
-    }
-
-    @POST
-    @ApiOperation(value = "create a new Item", notes = "asdasd")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response=Item.class),
-            @ApiResponse(code = 400, message = "item already exist for this name")
-
-    })
-
-    @Path("/items/register")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response newItem(Item item) {
-
-        Item i = this.gm.addItem(item);
-
-        if (i == null) {return Response.status(400).build();}
-        else {return Response.status(201).entity(i).build();}
-    }
-
-
-    @GET
-    @ApiOperation(value = "get all Items in the inventory", notes = "asdasd")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Item.class, responseContainer="List"),
+            @ApiResponse(code = 201, message = "Successful", response= User.class),
             @ApiResponse(code = 404, message = "User not found")
     })
-    @Path("/users/inventory/{mail}&{password}")
+    @Path("/users/delete/{mail}&{password}")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getItemInInventory(@PathParam("mail") String mail, @PathParam("password") String password) {
-        List<Item> items = this.gm.getItemInInventory(mail, password);
-        GenericEntity<List<Item>> entity = new GenericEntity<List<Item>>(items){};
-        if (items == null) {return Response.status(404).build();}
-        else {return Response.status(201).entity(entity).build();}
+    public Response deleteUser(@PathParam("mail") String mail, @PathParam("password") String password) {
+
+
+        User t = this.gm.deleteUser(mail, password);
+
+        if (t == null) {return Response.status(404).build();}
+        else {return Response.status(201).entity(t).build();}
     }
+
 }
