@@ -167,16 +167,21 @@ public class GameManagerImpl implements GameManager{
 
         Session session = null;
         User user = null;
+        Inventory inv = null;
+        int id = 0;
 
         try {
             session = FactorySession.openSession();
             user = this.authentification(mail, password);
+            id = session.getID(user);
+            inv = this.getInventory(id);
 
-            if (session.getID(user) == 0) {
+            if (id == 0) {
                 logger.warn("user isn't exist in database");
                 return null;
             } else {
                 session.delete(user);
+                session.delete(inv);
                 logger.info("user : "+ user +" deleted");
                 return user;
             }
@@ -277,6 +282,29 @@ public class GameManagerImpl implements GameManager{
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////// INVENTORY ////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Inventory getInventory (int id) {
+
+        logger.info("we want to get inventory associated to id " + id);
+
+        Session session = null;
+        Inventory inv = null;
+
+        try {
+            session = FactorySession.openSession();
+            inv = (Inventory) session.getByID(Inventory.class, id);
+
+        } catch (Exception e) {
+        } finally {
+            session.close();
+        }
+        if (inv != null) {
+            logger.info("the inventory is " + inv);
+        } else {
+            logger.info("inventory not found");
+        }
+        return inv;
+    }
 
     @Override
     public Inventory addInInventory(User user, Item item) {

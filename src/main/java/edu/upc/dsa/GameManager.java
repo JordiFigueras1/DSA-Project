@@ -29,6 +29,7 @@ public interface GameManager {
     public User authentification(String mail, String password);
 
     public int size();
+    public Inventory getInventory (int id);
     public Inventory addInInventory(User user, Item item) throws SQLException;
     public Inventory deleteInInventory(User user, Item item) throws NoSuchMethodException;
     public Item buyItem(User user, Item item);
