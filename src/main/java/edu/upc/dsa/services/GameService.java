@@ -144,7 +144,7 @@ public class GameService {
             @ApiResponse(code = 201, message = "Successful", response= Item.class),
             @ApiResponse(code = 404, message = "User not found")
     })
-    @Path("/users/shop/{mail}&{password}")
+    @Path("/users/shop/buy/{mail}&{password}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response buyItem(Item i, @PathParam("mail") String mail, @PathParam("password") String password) {
@@ -162,7 +162,7 @@ public class GameService {
             @ApiResponse(code = 201, message = "Successful", response= Item.class),
             @ApiResponse(code = 404, message = "User not found")
     })
-    @Path("/users/shop/{mail}&{password}")
+    @Path("/users/shop/sell/{mail}&{password}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response sellItem(Item i, @PathParam("mail") String mail, @PathParam("password") String password) {
