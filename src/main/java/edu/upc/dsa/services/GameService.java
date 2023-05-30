@@ -248,7 +248,7 @@ public class GameService {
             @ApiResponse(code = 201, message = "Successful", response = Item.class, responseContainer="List"),
             @ApiResponse(code = 404, message = "User not found")
     })
-    @Path("/Users/inventory/{mail}&{password}")
+    @Path("/users/inventory/{mail}&{password}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getItemInInventory(@PathParam("mail") String mail, @PathParam("password") String password) {
         List<Item> items = this.gm.getItemInInventory(mail, password);
