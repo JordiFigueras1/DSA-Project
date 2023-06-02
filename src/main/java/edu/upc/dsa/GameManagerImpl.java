@@ -148,10 +148,17 @@ public class GameManagerImpl implements GameManager{
 
         Session session = null;
         User user = null;
+        User test = null;
         boolean isUpdate = false;
 
         try {
             session = FactorySession.openSession();
+            int i = session.getID(u);
+            test = getUser(i);
+            if ((PasswordSecurity.decrypt(test.getPassword()).equals(u.getPassword())) && test.getUsername().equals(u.getUsername())) {
+                logger.warn("you don't change anything");
+                return null;
+            }
             u.setPassword(PasswordSecurity.encrypt(u.getPassword()));
             isUpdate = session.update(u);
             if (isUpdate) {
