@@ -154,6 +154,10 @@ public class GameManagerImpl implements GameManager{
         try {
             session = FactorySession.openSession();
             int i = session.getID(u);
+            if (i == 0) {
+                logger.warn("User doesn't exist");
+                return null;
+            }
             test = getUser(i);
             if ((PasswordSecurity.decrypt(test.getPassword()).equals(u.getPassword())) && test.getUsername().equals(u.getUsername())) {
                 logger.warn("you don't change anything");
@@ -163,6 +167,7 @@ public class GameManagerImpl implements GameManager{
             isUpdate = session.update(u);
             if (isUpdate) {
                 user = u;
+                logger.info("User updated");
             }
 
         } catch (Exception e) {
