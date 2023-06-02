@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.upc.dsa.util.ObjectHelper;
+import edu.upc.dsa.util.PasswordSecurity;
 import org.apache.log4j.Logger;
 public class GameManagerImpl implements GameManager{
     private static GameManager instance;
@@ -46,6 +47,7 @@ public class GameManagerImpl implements GameManager{
 
             if (userID == 0) {
                 user = u;
+                user.setPassword(PasswordSecurity.encrypt(user.getPassword()));
                 session.save(user);
                 logger.info("new user " + u + " added");
             } else {
@@ -102,7 +104,7 @@ public class GameManagerImpl implements GameManager{
             } else {
                 u = this.getUser(id);
 
-                if (!(u.getPassword().equals(password))) {
+                if (!(PasswordSecurity.decrypt(u.getPassword()).equals(password))) {
                     logger.warn("Password wrong");
                     return null;
                 } else {
@@ -150,6 +152,7 @@ public class GameManagerImpl implements GameManager{
 
         try {
             session = FactorySession.openSession();
+            u.setPassword(PasswordSecurity.encrypt(u.getPassword()));
             isUpdate = session.update(u);
             if (isUpdate) {
                 user = u;
