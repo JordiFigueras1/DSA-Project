@@ -2,6 +2,7 @@ package edu.upc.dsa.services;
 
 import edu.upc.dsa.GameManager;
 import edu.upc.dsa.GameManagerImpl;
+import edu.upc.dsa.models.Question;
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.models.VOCredentials;
 import edu.upc.dsa.models.Item;
@@ -172,6 +173,23 @@ public class GameService {
 
         if (t == null) {return Response.status(400).build();}
         else {return Response.status(201).entity(u).build();}
+    }
+
+    @POST
+    @ApiOperation(value = "create a question", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response=Question.class),
+            @ApiResponse(code = 400, message = "Message is unreachable")
+
+    })
+
+    @Path("/users/question")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response newQuestion(Question q) {
+
+        if (q == null) {return Response.status(400).build();}
+        else {return Response.status(201).entity(q).build();}
     }
 
     @POST
