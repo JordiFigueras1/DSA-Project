@@ -506,26 +506,25 @@ public class GameManagerImpl implements GameManager{
     public Question addQuestion(Question q) {
 
         logger.info("new question : " + q + " should be add");
-        String t = q.getTitle();
         Session session = null;
         Question question = null;
         List<String> args = new ArrayList<>();
         args.add("sender");
+        args.add("title");
 
         try {
             session = FactorySession.openSession();
             List<Question> qs = session.findAll(q, args);
             int n = qs.size();
 
-            for (int i = 0; i < n; i++) {
-                if (qs.get(i).getTitle().equals(t)) {
-                    logger.warn("question is already existing for this title : you have to change the title");
-                    return q;
-                }
+            if (n == 0) {
+                logger.warn("question is already existing for this title : you have to change the title");
+                return q;
+            } else {
+                question = q;
+                session.save(q);
+                logger.info("new question " + q + " added");
             }
-            question = q;
-            session.save(q);
-            logger.info("new question " + q + " added");
 
         } catch (Exception e) {
         } finally {
