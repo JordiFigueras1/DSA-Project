@@ -3,6 +3,7 @@ package edu.upc.dsa.models;
 public class Question {
 
     int id;
+
     private String date;
     private String title;
     private String message;
@@ -10,6 +11,14 @@ public class Question {
 
 
     public Question() {}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getDate() {
         return date;
