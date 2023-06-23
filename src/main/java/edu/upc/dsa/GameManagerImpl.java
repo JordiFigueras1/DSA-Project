@@ -518,12 +518,12 @@ public class GameManagerImpl implements GameManager{
             int n = qs.size();
 
             if (n == 0) {
-                logger.warn("question is already existing for this title : you have to change the title");
-                return q;
-            } else {
                 question = q;
                 session.save(q);
                 logger.info("new question " + q + " added");
+
+            } else {
+                logger.warn("question is already existing for this title : you have to change the title");
             }
 
         } catch (Exception e) {

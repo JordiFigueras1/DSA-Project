@@ -269,8 +269,8 @@ public class SessionImpl implements Session {
             System.out.println(args.size());
             String selectQuery = QueryHelper.createQuerySELECT(theClass, args);
             pstm = conn.prepareStatement(selectQuery);
-            for (int i = 0; i < args.size(); i++) {
-                pstm.setObject(i++, ObjectHelper.getter(object, (String) args.get(i)));
+            for (int i = 1; i < (args.size()+1); i++) {
+                pstm.setObject(i++, ObjectHelper.getter(object, (String) args.get(i-1)));
             }
             System.out.println(pstm);
             ResultSet result = pstm.executeQuery();
