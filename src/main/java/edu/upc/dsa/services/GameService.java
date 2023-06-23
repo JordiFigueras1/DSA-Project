@@ -145,7 +145,9 @@ public class GameService {
         Message msg = new Message("Hello it's the message list !!!");
         messages.add(msg);
 
-        return Response.status(201).entity(messages).build();
+        GenericEntity<List<Message>> entity = new GenericEntity<List<Message>>(messages) {};
+
+        return Response.status(201).entity(entity).build();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -2,6 +2,7 @@ package edu.upc.dsa.models;
 
 public class Question {
 
+    int id;
     private String date;
     private String title;
     private String message;
