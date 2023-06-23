@@ -270,7 +270,7 @@ public class SessionImpl implements Session {
             String selectQuery = QueryHelper.createQuerySELECT(theClass, args);
             pstm = conn.prepareStatement(selectQuery);
             for (int i = 1; i < (args.size()+1); i++) {
-                pstm.setObject(i++, ObjectHelper.getter(object, (String) args.get(i-1)));
+                pstm.setObject(i, ObjectHelper.getter(object, (String) args.get(i-1)));
             }
             System.out.println(pstm);
             ResultSet result = pstm.executeQuery();
