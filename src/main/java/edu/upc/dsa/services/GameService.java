@@ -2,10 +2,7 @@ package edu.upc.dsa.services;
 
 import edu.upc.dsa.GameManager;
 import edu.upc.dsa.GameManagerImpl;
-import edu.upc.dsa.models.Question;
-import edu.upc.dsa.models.User;
-import edu.upc.dsa.models.VOCredentials;
-import edu.upc.dsa.models.Item;
+import edu.upc.dsa.models.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 @Api(value = "/", description = "Endpoint to User Service")
@@ -130,6 +128,24 @@ public class GameService {
 
         if (user == null) {return Response.status(404).build();}
         else {return Response.status(201).entity(user).build();}
+    }
+
+
+    @GET
+    @ApiOperation(value = "get all message", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Message.class, responseContainer="List"),
+    })
+    @Path("/users/posts/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMessages() {
+
+        List<Message> messages = new ArrayList<>();
+        Message msg = new Message("Hello it's the message list !!!");
+        messages.add(msg);
+
+        return Response.status(201).entity(messages).build();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
