@@ -35,5 +35,5 @@ public interface GameManager {
     public List<Item> getItemInInventory(String mail, String password);
 
     public Question addQuestion(Question q);
-    public List<Question> getQuestions(User u);
+    public List<Question> getQuestions(String mail, String password);
 }

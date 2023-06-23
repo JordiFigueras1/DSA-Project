@@ -533,11 +533,13 @@ public class GameManagerImpl implements GameManager{
         return question;
     }
 
-    public List<Question> getQuestions(User u) {
+    public List<Question> getQuestions(String mail, String password) {
 
         Session session = null;
         List<Question> questions = new ArrayList<>();
         List<String> args = new ArrayList<>();
+        User u = this.authentification(mail, password);
+        System.out.println(u);
 
         args.add("sender");
 
