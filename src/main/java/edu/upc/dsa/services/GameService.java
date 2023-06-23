@@ -155,11 +155,12 @@ public class GameService {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = Question.class, responseContainer="List"),
     })
-    @Path("/users/questions/")
+    @Path("/users/questions/{mail}{password}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getQuestions(User u) {
+    public Response getQuestions(@PathParam("mail") String mail, @PathParam("password") String password) {
 
+        User u = this.gm.authentification(mail, password);
         List<Question> questions = this.gm.getQuestions(u);
 
         GenericEntity<List<Question>> entity = new GenericEntity<List<Question>>(questions) {};
