@@ -1,9 +1,6 @@
 package edu.upc.dsa;
 
-import edu.upc.dsa.models.Inventory;
-import edu.upc.dsa.models.User;
-import edu.upc.dsa.models.VOCredentials;
-import edu.upc.dsa.models.Item;
+import edu.upc.dsa.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -505,4 +502,57 @@ public class GameManagerImpl implements GameManager{
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
      ///////////////////////////////// After this line, none database implemented ////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Question addQuestion(Question q) {
+
+        logger.info("new question : " + q + " should be add");
+        String t = q.getTitle();
+        Session session = null;
+        Question question = null;
+        List<String> args = new ArrayList<>();
+        args.add("sender");
+
+        try {
+            session = FactorySession.openSession();
+            List<Question> qs = session.findAll(q, args);
+            int n = qs.size();
+
+            for (int i = 0; i < n; i++) {
+                if (qs.get(i).getTitle().equals(t)) {
+                    logger.warn("question is already existing for this title : you have to change the title");
+                    return q;
+                }
+            }
+            question = q;
+            session.save(q);
+            logger.info("new question " + q + " added");
+
+        } catch (Exception e) {
+        } finally {
+            session.close();
+        }
+        return question;
+    }
+
+    public List<Question> getQuestions(User u) {
+
+        Session session = null;
+        List<Question> questions = new ArrayList<>();
+        List<String> args = new ArrayList<>();
+
+        args.add("sender");
+
+        try {
+            session = FactorySession.openSession();
+            int id = session.getID(u);
+            Question question = new Question("", "", "", id);
+            questions = session.findAll(question, args);
+            logger.info("questions are : "+ questions);
+        } catch (Exception e) {
+        } finally {
+                session.close();
+            }
+        return questions;
+    }
+
 }

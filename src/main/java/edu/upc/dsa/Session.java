@@ -13,6 +13,6 @@ public interface Session<E> {
     void delete(Object object);
     void createInventory(Class myClass) throws NoSuchMethodException;
     List<Object> findAll(Class theClass) throws NoSuchMethodException;
-    List<Object> findAll(Class theClass, HashMap params);
-    List<Object> query(String query, Class theClass, HashMap params);
+
+    List<Object> findAll(Object object, List<String> args);
 }

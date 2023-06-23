@@ -1,7 +1,7 @@
 package edu.upc.dsa.util;
 
-import edu.upc.dsa.models.User;
-import edu.upc.dsa.models.VOCredentials;
+import java.lang.reflect.Constructor;
+import java.util.List;
 
 public class QueryHelper {
 
@@ -55,6 +55,41 @@ public class QueryHelper {
 
         String [] fields = ObjectHelper.getFields(entity);
         sb.append(fields[0]).append("=?");
+        return sb.toString();
+    }
+
+    public static String createQuerySELECT(Class theClass, List<String> args) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT * FROM ").append(theClass.getSimpleName().toLowerCase());
+        sb.append(" WHERE ");
+
+        try {
+            Constructor[] ctors = theClass.getDeclaredConstructors();
+            Constructor ctor = null;
+            for (int i = 0; i < ctors.length; i++) {
+                ctor = ctors[i];
+                if (ctor.getGenericParameterTypes().length == 0)
+                    break;
+            }
+
+            ctor.setAccessible(true);
+            Object entity = (Object) ctor.newInstance();
+
+            String[] fields = ObjectHelper.getFields(entity);
+            int n = args.size();
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < fields.length; j++) {
+                    if (fields[j].equals(args.get(i))) {
+                        sb.append(fields[j]).append("=?");
+                        if ((i + 1) != n) {
+                            sb.append(" AND ");
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return sb.toString();
     }
 

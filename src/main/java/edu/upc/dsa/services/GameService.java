@@ -150,6 +150,23 @@ public class GameService {
         return Response.status(201).entity(entity).build();
     }
 
+    @GET
+    @ApiOperation(value = "get all questions", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Question.class, responseContainer="List"),
+    })
+    @Path("/users/questions/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getQuestions(User u) {
+
+        List<Question> questions = this.gm.getQuestions(u);
+
+        GenericEntity<List<Question>> entity = new GenericEntity<List<Question>>(questions) {};
+
+        return Response.status(201).entity(entity).build();
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////// POST /////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,7 +221,9 @@ public class GameService {
     @Path("/users/question")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response newQuestion(Question q) {
+    public Response newQuestion(Question question) {
+
+        Question q = this.gm.addQuestion(question);
 
         if (q == null) {return Response.status(400).build();}
         else {return Response.status(201).entity(q).build();}

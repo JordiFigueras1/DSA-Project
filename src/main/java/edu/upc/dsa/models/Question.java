@@ -1,24 +1,24 @@
 package edu.upc.dsa.models;
 
 public class Question {
-
-    int id;
-
     private String date;
     private String title;
     private String message;
-    private String sender;
+    private int sender;
+    private String response;
 
-
-    public Question() {}
-
-    public int getId() {
-        return id;
+    public Question() {
+        this.response = "we will answer you as soon as possible";
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Question(String date, String title, String message, int sender) {
+        this.date = date;
+        this.title = title;
+        this.message = message;
+        this.sender = sender;
+        this.response = "we will answer you as soon as possible";
     }
+
 
     public String getDate() {
         return date;
@@ -44,12 +44,20 @@ public class Question {
         this.message = message;
     }
 
-    public String getSender() {
+
+    public Integer getSender() {
         return sender;
     }
-
-    public void setSender(String sender) {
+    public void setSender(Integer sender) {
         this.sender = sender;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 
 }

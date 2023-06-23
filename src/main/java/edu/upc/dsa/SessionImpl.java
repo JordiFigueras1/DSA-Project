@@ -248,11 +248,57 @@ public class SessionImpl implements Session {
         return objects;
     }
 
-    public List<Object> findAll(Class theClass, HashMap params) {
-        return null;
+    @Override
+    public List<Object> findAll(Object object, List args) {
+
+        List<Object> objects = new ArrayList<>();
+        Class theClass = object.getClass();
+        PreparedStatement pstm = null;
+
+        try {
+            Constructor[] ctors = theClass.getDeclaredConstructors();
+            Constructor ctor = null;
+            for (int i = 0; i < ctors.length; i++) {
+                ctor = ctors[i];
+                if (ctor.getGenericParameterTypes().length == 0)
+                    break;
+            }
+
+            ctor.setAccessible(true);
+
+            String selectQuery = QueryHelper.createQuerySELECT(theClass, args);
+            pstm = conn.prepareStatement(selectQuery);
+            for (int i = 0; i < args.size(); i++) {
+                pstm.setObject(i++, ObjectHelper.getter(object, (String) args.get(i)));
+            }
+            ResultSet result = pstm.executeQuery();
+
+            while (result.next()) {
+                Object entity = (Object) ctor.newInstance();
+                for (Field field : theClass.getDeclaredFields()) {
+
+                    Class param = field.getType();
+                    String type = param.getSimpleName();
+
+                    char[] arr = type.toCharArray();
+                    arr[0] = Character.toUpperCase(arr[0]);
+                    String newType = new String(arr);
+                    String method = "get" + newType;
+
+                    Method mth = result.getClass().getMethod(method, String.class);
+                    Object value = mth.invoke(result, field.getName());
+                    ObjectHelper.setter(entity, field.getName(), value);
+                }
+                objects.add(entity);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return objects;
     }
-    public List<Object> query(String query, Class theClass, HashMap params) {
-        return null;
-    }
+
+
 }
 

@@ -1,9 +1,6 @@
 package edu.upc.dsa;
 
-import edu.upc.dsa.models.Inventory;
-import edu.upc.dsa.models.User;
-import edu.upc.dsa.models.VOCredentials;
-import edu.upc.dsa.models.Item;
+import edu.upc.dsa.models.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -32,8 +29,11 @@ public interface GameManager {
     public Inventory getInventory (int id);
     public Inventory addInInventory(User user, Item item) throws SQLException;
     public Inventory deleteInInventory(User user, Item item) throws NoSuchMethodException;
+
     public Item buyItem(User user, Item item);
     public Item sellItem(User user, Item item);
     public List<Item> getItemInInventory(String mail, String password);
 
+    public Question addQuestion(Question q);
+    public List<Question> getQuestions(User u);
 }
