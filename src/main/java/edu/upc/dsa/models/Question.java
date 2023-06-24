@@ -1,10 +1,10 @@
 package edu.upc.dsa.models;
 
 public class Question {
+    private int sender;
     private String date;
     private String title;
     private String message;
-    private int sender;
     private String response;
 
     public Question() {

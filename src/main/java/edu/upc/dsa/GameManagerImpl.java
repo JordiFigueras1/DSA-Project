@@ -87,14 +87,19 @@ public class GameManagerImpl implements GameManager{
     @Override
     public User authentification(String mail, String password) {
 
+        System.out.println("mail : " + mail);
+        System.out.println("password : " + password);
+
         Session session = null;
         User user = new User(mail, password, "Zidane");
+        System.out.println(user);
         User u = null;
         int id = 0;
 
         try {
             session = FactorySession.openSession();
             id = session.getID(user);
+            System.out.println(id);
 
             if (id == 0) {
                 logger.info("user not found");
@@ -460,7 +465,6 @@ public class GameManagerImpl implements GameManager{
 
     public List<Item> getItemInInventory(String mail, String password) {
 
-        /// Attention, il y a un null qq part !!!
         User user = this.authentification(mail, password);
         Session session = null;
         List<Item> items = new ArrayList<>();
@@ -535,10 +539,10 @@ public class GameManagerImpl implements GameManager{
 
     public List<Question> getQuestions(String mail, String password) {
 
+        User u = this.authentification(mail, password);
         Session session = null;
         List<Question> questions = new ArrayList<>();
         List<String> args = new ArrayList<>();
-        User u = this.authentification(mail, password);
         System.out.println(u);
 
         args.add("sender");

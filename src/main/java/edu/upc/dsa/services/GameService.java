@@ -160,9 +160,7 @@ public class GameService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getQuestions(@PathParam("mail") String mail, @PathParam("password") String password) {
 
-
         List<Question> questions = this.gm.getQuestions(mail, password);
-
         GenericEntity<List<Question>> entity = new GenericEntity<List<Question>>(questions) {};
 
         return Response.status(201).entity(entity).build();

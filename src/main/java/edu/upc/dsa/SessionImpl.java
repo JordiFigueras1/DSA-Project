@@ -110,7 +110,7 @@ public class SessionImpl implements Session {
             String [] fields = ObjectHelper.getFields(entity);
 
             pstm.setObject(1, ObjectHelper.getter(entity, fields[0]));
-
+            System.out.println(pstm);
             ResultSet result = pstm.executeQuery();
 
             if (result.next()) {
