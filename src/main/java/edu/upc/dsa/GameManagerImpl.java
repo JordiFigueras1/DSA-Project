@@ -174,6 +174,7 @@ public class GameManagerImpl implements GameManager{
             isUpdate = session.update(u);
             if (isUpdate) {
                 user = u;
+                user.setPassword(PasswordSecurity.decrypt(user.getPassword()));
                 logger.info("User updated");
             }
 
