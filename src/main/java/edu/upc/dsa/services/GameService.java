@@ -160,8 +160,8 @@ public class GameService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getQuestions(@PathParam("mail") String mail, @PathParam("password") String password) {
 
-        List<Question> questions = this.gm.getQuestions(mail, password);
-        GenericEntity<List<Question>> entity = new GenericEntity<List<Question>>(questions) {};
+        List<QuestionRequest> qrs = this.gm.getQuestions(mail, password);
+        GenericEntity<List<QuestionRequest>> entity = new GenericEntity<List<QuestionRequest>>(qrs) {};
 
         return Response.status(201).entity(entity).build();
     }
@@ -220,9 +220,9 @@ public class GameService {
     @Path("/users/question")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response newQuestion(Question question) {
+    public Response newQuestion(QuestionRequest q) {
 
-        Question q = this.gm.addQuestion(question);
+        QuestionRequest qr = this.gm.addQuestion(q);
 
         if (q == null) {return Response.status(400).build();}
         else {return Response.status(201).entity(q).build();}

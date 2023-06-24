@@ -525,9 +525,40 @@ public class GameManagerImpl implements GameManager{
      ///////////////////////////////// After this line, none database implemented ////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Question addQuestion(Question q) {
+    public Question questionRequestToQuestion(QuestionRequest qr) {
 
-        logger.info("new question : " + q + " should be add");
+        Session session = null;
+        Question q = null;
+        try {
+            session = FactorySession.openSession();
+            int sender = session.getID(new User(qr.getSender(), "", ""));
+            q = new Question(sender, qr.getDate(), qr.getTitle(), qr.getMessage());
+
+        } catch (Exception e) {
+        } finally {
+            session.close();
+        }
+        return q;
+    }
+    public QuestionRequest questionToQuestionRequest(Question q) {
+        Session session = null;
+        QuestionRequest qr = null;
+        try {
+            session = FactorySession.openSession();
+            User u = (User) session.getByID(User.class, q.getSender());
+            qr = new QuestionRequest(u.getMail(), q.getDate(), q.getTitle(), q.getMessage());
+
+        } catch (Exception e) {
+        } finally {
+            session.close();
+        }
+        return qr;
+    }
+
+    public QuestionRequest addQuestion(QuestionRequest qr) {
+
+        logger.info("new question : " + qr + " should be add");
+        Question q = this.questionRequestToQuestion(qr);
         Session session = null;
         Question question = null;
         List<String> args = new ArrayList<>();
@@ -538,7 +569,6 @@ public class GameManagerImpl implements GameManager{
             session = FactorySession.openSession();
             List<Question> qs = session.findAll(q, args);
             int n = qs.size();
-
             if (n == 0) {
                 question = q;
                 session.save(q);
@@ -552,30 +582,33 @@ public class GameManagerImpl implements GameManager{
         } finally {
             session.close();
         }
-        return question;
+        return this.questionToQuestionRequest(q);
     }
 
-    public List<Question> getQuestions(String mail, String password) {
+    public List<QuestionRequest> getQuestions(String mail, String password) {
 
         User u = this.authentification(mail, password);
         Session session = null;
         List<Question> questions = new ArrayList<>();
+        List<QuestionRequest> qrs = new ArrayList<>();
         List<String> args = new ArrayList<>();
-        System.out.println(u);
 
         args.add("sender");
 
         try {
             session = FactorySession.openSession();
             int id = session.getID(u);
-            Question question = new Question("", "", "", id);
+            Question question = new Question(id, "", "", "");
             questions = session.findAll(question, args);
             logger.info("questions are : "+ questions);
         } catch (Exception e) {
         } finally {
-                session.close();
-            }
-        return questions;
+            session.close();
+        }
+        for (int i = 0; i < questions.size(); i++) {
+            qrs.add(this.questionToQuestionRequest(questions.get(i)));
+        }
+        return qrs;
     }
 
 }

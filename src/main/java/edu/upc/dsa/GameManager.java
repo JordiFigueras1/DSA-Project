@@ -34,6 +34,8 @@ public interface GameManager {
     public Item sellItem(User user, Item item);
     public List<Item> getItemInInventory(String mail, String password);
 
-    public Question addQuestion(Question q);
-    public List<Question> getQuestions(String mail, String password);
+    public Question questionRequestToQuestion(QuestionRequest qr);
+    public QuestionRequest questionToQuestionRequest(Question q);
+    public QuestionRequest addQuestion(QuestionRequest qr);
+    public List<QuestionRequest> getQuestions(String mail, String password);
 }
