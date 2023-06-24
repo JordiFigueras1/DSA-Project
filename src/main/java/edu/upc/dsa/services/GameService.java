@@ -155,7 +155,7 @@ public class GameService {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = Question.class, responseContainer="List"),
     })
-    @Path("/users/questions/{mail}{password}")
+    @Path("/users/questions/{mail}&{password}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getQuestions(@PathParam("mail") String mail, @PathParam("password") String password) {
