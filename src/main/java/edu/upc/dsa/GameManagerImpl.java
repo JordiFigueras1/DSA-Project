@@ -2,6 +2,7 @@ package edu.upc.dsa;
 
 import edu.upc.dsa.models.*;
 
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,6 +153,8 @@ public class GameManagerImpl implements GameManager{
     public User updateUser(User u) {
 
         Session session = null;
+        LocalDate date = LocalDate.now();
+        Message info = null;
         User user = null;
         User test = null;
         boolean isUpdate = false;
@@ -173,6 +176,8 @@ public class GameManagerImpl implements GameManager{
 
             isUpdate = session.update(u);
             if (isUpdate) {
+                info = new Message(i, date + " : your profile is updated !");
+                session.save(info);
                 user = u;
                 user.setPassword(PasswordSecurity.decrypt(user.getPassword()));
                 logger.info("User updated");
@@ -223,17 +228,25 @@ public class GameManagerImpl implements GameManager{
     public Item addItem(Item i) {
 
         logger.info("new item : " + i + " should be add");
+        List<User> users = null;
+        Message info = null;
         Session session = null;
         Item item = null;
-        int userID = 0;
+        int itemID = 0;
+        LocalDate date = LocalDate.now();
 
         try {
             session = FactorySession.openSession();
-            userID = session.getID(i);
+            itemID = session.getID(i);
 
-            if (userID == 0) {
+            if (itemID == 0) {
                 item = i;
                 session.save(item);
+                users = this.getUsers();
+                for (User u : users) {
+                    info = new Message(session.getID(u), date + " : new item " + i.getName() + " is available for " + i.getPrice() + " coins.");
+                }
+                session.save(info);
                 logger.info("new item " + i + " added");
             } else {
                 logger.warn("item is already existing for this mail");
@@ -432,6 +445,8 @@ public class GameManagerImpl implements GameManager{
     @Override
     public Item buyItem(User user, Item item) {
 
+        LocalDate date = LocalDate.now();
+        Message info = null;
         Session session = null;
         boolean isUpdate;
         int price = item.getPrice();
@@ -443,6 +458,9 @@ public class GameManagerImpl implements GameManager{
                return null;
            } else {
                user.setCoins(budget - price);
+               int id = session.getID(user);
+               info = new Message(id, date + " : you bought item " + item.getName() + " for " + price + " coins.");
+               session.save(info);
                Inventory inv = this.addInInventory(user, item);
                if (inv != null) {
                    isUpdate = session.update(user);
@@ -461,6 +479,8 @@ public class GameManagerImpl implements GameManager{
     @Override
     public Item sellItem(User user, Item item) {
 
+        LocalDate date = LocalDate.now();
+        Message info = null;
         Session session = null;
         boolean isUpdate;
         int price = item.getPrice();
@@ -468,6 +488,9 @@ public class GameManagerImpl implements GameManager{
         try {
             session = FactorySession.openSession();
             user.setCoins(budget + price);
+            int id = session.getID(user);
+            info = new Message(id, date + " : you sold item " + item.getName() + " for " + item.getPrice() + " coins.");
+            session.save(info);
             this.deleteInInventory(user, item);
             isUpdate = session.update(user);
             if (isUpdate) {
@@ -521,9 +544,9 @@ public class GameManagerImpl implements GameManager{
     }
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-     ///////////////////////////////// After this line, none database implemented ////////////////////////////
-      ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////// QUESTION ////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Question questionRequestToQuestion(QuestionRequest qr) {
 
@@ -541,6 +564,7 @@ public class GameManagerImpl implements GameManager{
         return q;
     }
     public QuestionRequest questionToQuestionRequest(Question q) {
+
         Session session = null;
         QuestionRequest qr = null;
         try {
@@ -557,6 +581,8 @@ public class GameManagerImpl implements GameManager{
 
     public QuestionRequest addQuestion(QuestionRequest qr) {
 
+        Message info = null;
+        LocalDate date = LocalDate.now();
         logger.info("new question : " + qr + " should be add");
         Question q = this.questionRequestToQuestion(qr);
         Session session = null;
@@ -572,6 +598,8 @@ public class GameManagerImpl implements GameManager{
             if (n == 0) {
                 question = q;
                 session.save(q);
+                info = new Message(q.getSender(), date + " : you asked for a new question.");
+                session.save(info);
                 logger.info("new question " + q + " added");
 
             } else {
@@ -609,6 +637,67 @@ public class GameManagerImpl implements GameManager{
             qrs.add(this.questionToQuestionRequest(questions.get(i)));
         }
         return qrs;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ///////////////////////////////// After this line, none database implemented ////////////////////////////
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Message messageRequestToMessage(MessageRequest mr) {
+
+        Session session = null;
+        Message m = null;
+        try {
+            session = FactorySession.openSession();
+            int receiver = session.getID(new User(mr.getReceiver(), "", ""));
+            m = new Message(receiver, mr.getMessage());
+
+        } catch (Exception e) {
+        } finally {
+            session.close();
+        }
+        return m;
+    }
+    public MessageRequest messageToMessageRequest(Message m) {
+
+        Session session = null;
+        MessageRequest mr = null;
+        try {
+            session = FactorySession.openSession();
+            User u = (User) session.getByID(User.class, m.getReceiver());
+            mr = new MessageRequest(u.getMail(), m.getMessage());
+
+        } catch (Exception e) {
+        } finally {
+            session.close();
+        }
+        return mr;
+    }
+    public List<MessageRequest> getMessages(String mail, String password) {
+
+        User u = this.authentification(mail, password);
+        Session session = null;
+        List<Message> messages = new ArrayList<>();
+        List<MessageRequest> msgs = new ArrayList<>();
+        List<String> args = new ArrayList<>();
+
+        args.add("receiver");
+
+        try {
+            session = FactorySession.openSession();
+            int id = session.getID(u);
+            Message message = new Message(id, "");
+            messages = session.findAll(message, args);
+            logger.info("questions are : "+ messages);
+        } catch (Exception e) {
+        } finally {
+            session.close();
+        }
+        int n = messages.size();
+        for (int i = n-1; i >= 0; i--) {
+            msgs.add(this.messageToMessageRequest(messages.get(i)));
+        }
+        return msgs;
     }
 
 }

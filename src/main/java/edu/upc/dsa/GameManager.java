@@ -38,4 +38,8 @@ public interface GameManager {
     public QuestionRequest questionToQuestionRequest(Question q);
     public QuestionRequest addQuestion(QuestionRequest qr);
     public List<QuestionRequest> getQuestions(String mail, String password);
+
+    public Message messageRequestToMessage(MessageRequest mr);
+    public MessageRequest messageToMessageRequest(Message m);
+    public List<MessageRequest> getMessages(String mail, String password);
 }

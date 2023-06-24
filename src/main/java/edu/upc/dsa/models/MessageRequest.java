@@ -1,10 +1,10 @@
 package edu.upc.dsa.models;
 
-public class Message {
-    int receiver;
+public class MessageRequest {
+    String receiver;
     String message;
 
-    public Message(int receiver, String msg){
+    public MessageRequest(String receiver, String msg){
 
         this.message = msg;
         this.receiver = receiver;
@@ -18,11 +18,11 @@ public class Message {
         this.message = message;
     }
 
-    public Integer getReceiver() {
+    public String getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(Integer receiver) {
+    public void setReceiver(String receiver) {
         this.receiver = receiver;
     }
 }

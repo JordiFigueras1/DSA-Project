@@ -134,18 +134,15 @@ public class GameService {
     @GET
     @ApiOperation(value = "get all message", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Message.class, responseContainer="List"),
+            @ApiResponse(code = 201, message = "Successful", response = MessageRequest.class, responseContainer="List"),
     })
-    @Path("/users/posts/")
+    @Path("/users/posts/{mail}&{password}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMessages() {
+    public Response getMessages(@PathParam("mail") String mail, @PathParam("password") String password) {
 
-        List<Message> messages = new ArrayList<>();
-        Message msg = new Message("Hello it's the message list !!!");
-        messages.add(msg);
-
-        GenericEntity<List<Message>> entity = new GenericEntity<List<Message>>(messages) {};
+        List<MessageRequest> messages = this.gm.getMessages(mail, password);
+        GenericEntity<List<MessageRequest>> entity = new GenericEntity<List<MessageRequest>>(messages) {};
 
         return Response.status(201).entity(entity).build();
     }
@@ -153,7 +150,7 @@ public class GameService {
     @GET
     @ApiOperation(value = "get all questions", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Question.class, responseContainer="List"),
+            @ApiResponse(code = 201, message = "Successful", response = QuestionRequest.class, responseContainer="List"),
     })
     @Path("/users/questions/{mail}&{password}")
     @Consumes(MediaType.APPLICATION_JSON)
