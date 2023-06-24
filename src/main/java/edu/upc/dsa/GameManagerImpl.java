@@ -163,12 +163,14 @@ public class GameManagerImpl implements GameManager{
                 logger.warn("User doesn't exist");
                 return null;
             }
-            //test = getUser(i);
-            //if ((PasswordSecurity.decrypt(test.getPassword()).equals(u.getPassword())) && test.getUsername().equals(u.getUsername())) {
-                //logger.warn("you don't change anything");
-                //return null;
-            //}
-            //u.setPassword(PasswordSecurity.encrypt(u.getPassword()));
+            test = getUser(i);
+            u.setPassword(PasswordSecurity.encrypt(u.getPassword()));
+            if ((test.getPassword().equals(u.getPassword())) && test.getUsername().equals(u.getUsername())) {
+
+                logger.warn("you don't change anything");
+                return null;
+            }
+
             isUpdate = session.update(u);
             if (isUpdate) {
                 user = u;
@@ -429,9 +431,12 @@ public class GameManagerImpl implements GameManager{
     @Override
     public Item buyItem(User user, Item item) {
 
+        Session session = null;
+        boolean isUpdate;
         int price = item.getPrice();
         int budget = user.getCoins();
        try {
+           session = FactorySession.openSession();
            if ((budget - price) < 0) {
                logger.warn("you don't have enough money");
                return null;
@@ -439,8 +444,10 @@ public class GameManagerImpl implements GameManager{
                user.setCoins(budget - price);
                Inventory inv = this.addInInventory(user, item);
                if (inv != null) {
-                   System.out.println(user);
-                   this.updateUser(user);
+                   isUpdate = session.update(user);
+                   if (isUpdate) {
+                       logger.info("substraction of the money for the deal");
+                   }
                    return item;
                }
            }
@@ -453,12 +460,18 @@ public class GameManagerImpl implements GameManager{
     @Override
     public Item sellItem(User user, Item item) {
 
+        Session session = null;
+        boolean isUpdate;
         int price = item.getPrice();
         int budget = user.getCoins();
         try {
+            session = FactorySession.openSession();
             user.setCoins(budget + price);
             this.deleteInInventory(user, item);
-            this.updateUser(user);
+            isUpdate = session.update(user);
+            if (isUpdate) {
+                logger.info("Addition of the money for the sell");
+            }
             return item;
 
         } catch (Exception e) {
