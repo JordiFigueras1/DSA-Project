@@ -11,11 +11,11 @@ public class QuestionRequest {
         this.response = "we will answer you as soon as possible";
     }
 
-    public QuestionRequest(String date, String title, String message, String sender) {
+    public QuestionRequest(String sender, String date, String title, String message) {
+        this.sender = sender;
         this.date = date;
         this.title = title;
         this.message = message;
-        this.sender = sender;
         this.response = "we will answer you as soon as possible";
     }
 
