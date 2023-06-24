@@ -34,6 +34,9 @@ public class GameManagerImpl implements GameManager{
 
     public User addUser(User u) {
 
+        LocalDate date = LocalDate.now();
+        Message info = null;
+        List<Item> items = null;
         logger.info("new user : " + u + " should be add");
         Session session = null;
         User user = null;
@@ -45,9 +48,16 @@ public class GameManagerImpl implements GameManager{
 
             if (userID == 0) {
                 user = u;
+                items = this.getAllItems();
+
                 user.setPassword(PasswordSecurity.encrypt(user.getPassword()));
                 session.save(user);
+                for (Item i : items) {
+                    info = new Message(session.getID(user), date + " : new item " + i.getName() + " is available for " + i.getPrice() + " coins.");
+                    session.save(info);
+                }
                 logger.info("new user " + u + " added");
+
             } else {
                 logger.warn("user is already existing for this mail");
             }
