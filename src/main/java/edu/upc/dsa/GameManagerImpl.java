@@ -245,8 +245,8 @@ public class GameManagerImpl implements GameManager{
                 users = this.getUsers();
                 for (User u : users) {
                     info = new Message(session.getID(u), date + " : new item " + i.getName() + " is available for " + i.getPrice() + " coins.");
+                    session.save(info);
                 }
-                session.save(info);
                 logger.info("new item " + i + " added");
             } else {
                 logger.warn("item is already existing for this mail");
