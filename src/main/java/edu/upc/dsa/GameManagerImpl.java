@@ -688,7 +688,7 @@ public class GameManagerImpl implements GameManager{
             int id = session.getID(u);
             Message message = new Message(id, "");
             messages = session.findAll(message, args);
-            logger.info("questions are : "+ messages);
+            logger.info("messages are : "+ messages);
         } catch (Exception e) {
         } finally {
             session.close();

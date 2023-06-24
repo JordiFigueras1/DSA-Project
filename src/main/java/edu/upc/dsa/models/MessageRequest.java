@@ -4,6 +4,7 @@ public class MessageRequest {
     String receiver;
     String message;
 
+    public MessageRequest(){}
     public MessageRequest(String receiver, String msg){
 
         this.message = msg;
