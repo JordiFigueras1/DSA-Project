@@ -106,6 +106,9 @@ public class GameManagerImpl implements GameManager{
             } else {
                 u = this.getUser(id);
 
+                System.out.println(PasswordSecurity.decrypt(u.getPassword()));
+                System.out.println(password);
+
                 if (!(PasswordSecurity.decrypt(u.getPassword()).equals(password))) {
                     logger.warn("Password wrong");
                     return null;
