@@ -8,7 +8,7 @@ public class PasswordSecurityTest {
 
     @Test
     public void testEncryptDecrypt() {
-        String password = "123456789";
+        String password = "1234";
         String encryptedPassword;
         String decryptedPassword;
         try {

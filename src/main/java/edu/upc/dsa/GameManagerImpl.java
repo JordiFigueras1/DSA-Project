@@ -163,12 +163,12 @@ public class GameManagerImpl implements GameManager{
                 logger.warn("User doesn't exist");
                 return null;
             }
-            test = getUser(i);
-            if ((PasswordSecurity.decrypt(test.getPassword()).equals(u.getPassword())) && test.getUsername().equals(u.getUsername())) {
-                logger.warn("you don't change anything");
-                return null;
-            }
-            u.setPassword(PasswordSecurity.encrypt(u.getPassword()));
+            //test = getUser(i);
+            //if ((PasswordSecurity.decrypt(test.getPassword()).equals(u.getPassword())) && test.getUsername().equals(u.getUsername())) {
+                //logger.warn("you don't change anything");
+                //return null;
+            //}
+            //u.setPassword(PasswordSecurity.encrypt(u.getPassword()));
             isUpdate = session.update(u);
             if (isUpdate) {
                 user = u;
@@ -439,6 +439,7 @@ public class GameManagerImpl implements GameManager{
                user.setCoins(budget - price);
                Inventory inv = this.addInInventory(user, item);
                if (inv != null) {
+                   System.out.println(user);
                    this.updateUser(user);
                    return item;
                }
