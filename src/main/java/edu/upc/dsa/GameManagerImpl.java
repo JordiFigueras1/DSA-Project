@@ -724,8 +724,9 @@ public class GameManagerImpl implements GameManager{
         try {
             session = FactorySession.openSession();
             id = session.getID(user);
+            System.out.println(id);
             logger.info("we want to get the levels of " + user.getUsername());
-            level = (Level) session.getByID(level.getClass(), id);
+            level = (Level) session.getByID(Level.class, id);
 
         } catch (Exception e) {
             e.printStackTrace();
