@@ -728,11 +728,12 @@ public class GameManagerImpl implements GameManager{
             level = (Level) session.getByID(level.getClass(), id);
 
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             session.close();
         }
-        if (user == null) {
-            logger.info("user does not exist !");
+        if (level == null) {
+            logger.info("levels does not exist !");
         }
         return level;
     }
