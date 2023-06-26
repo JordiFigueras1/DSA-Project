@@ -4,6 +4,7 @@ import edu.upc.dsa.models.*;
 
 import java.time.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.upc.dsa.util.ObjectHelper;
@@ -49,9 +50,11 @@ public class GameManagerImpl implements GameManager{
             if (userID == 0) {
                 user = u;
                 items = this.getAllItems();
+                Level lvl = new Level(userID);
 
                 user.setPassword(PasswordSecurity.encrypt(user.getPassword()));
                 session.save(user);
+                session.save(lvl);
                 for (Item i : items) {
                     info = new Message(session.getID(user), date + " : new item " + i.getName() + " is available for " + i.getPrice() + " coins.");
                     session.save(info);
@@ -710,4 +713,72 @@ public class GameManagerImpl implements GameManager{
         return msgs;
     }
 
+
+    public Level getLevel(User user) {
+
+        int id;
+        Session session = null;
+        Level level = null;
+
+        try {
+            session = FactorySession.openSession();
+            id = session.getID(user);
+            logger.info("we want to get the levels of " + user.getUsername());
+            level = (Level) session.getByID(level.getClass(), id);
+
+        } catch (Exception e) {
+        } finally {
+            session.close();
+        }
+        if (user == null) {
+            logger.info("user does not exist !");
+        }
+        return level;
+    }
+    public Level updateLevel(User user, int nlevel, int score) {
+
+        Session session = null;
+        LocalDate date = LocalDate.now();
+        Message info = null;
+        Level lvl = null;
+        boolean isUpdate = false;
+
+        try {
+            session = FactorySession.openSession();
+            lvl = this.getLevel(user);
+            String property = "level" + nlevel;
+            int actualScore = (int) ObjectHelper.getter(lvl, property);
+
+            if (score > actualScore) {
+                ObjectHelper.setter(lvl, property, score);
+                isUpdate = session.update(lvl);
+            }
+            if (isUpdate) {
+                info = new Message(lvl.getId(), date + " : your levels are updated !");
+                session.save(info);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return lvl;
+
+    }
+    public List<Score> getScores() {
+
+        List<Score> scores = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        Level lvl = null;
+
+        users = this.getUsers();
+        for (User u : users) {
+            lvl = this.getLevel(u);
+            scores.add(new Score(lvl));
+        }
+        Collections.sort(scores, Collections.reverseOrder(new ScoreComparator()));
+
+        return scores;
+    }
 }

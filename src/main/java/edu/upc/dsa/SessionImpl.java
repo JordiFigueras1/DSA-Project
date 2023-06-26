@@ -2,6 +2,7 @@ package edu.upc.dsa;
 
 
 import edu.upc.dsa.models.Inventory;
+import edu.upc.dsa.models.Level;
 import edu.upc.dsa.util.ObjectHelper;
 import edu.upc.dsa.util.QueryHelper;
 
@@ -30,7 +31,7 @@ public class SessionImpl implements Session {
 
         try {
             pstm = conn.prepareStatement(insertQuery);
-            if (entity.getClass().equals(Inventory.class)) {
+            if (entity.getClass().equals(Inventory.class) || entity.getClass().equals(Level.class)) {
                 i = 1;
             } else {
                 pstm.setObject(1, 0);
@@ -127,6 +128,7 @@ public class SessionImpl implements Session {
 
         PreparedStatement pstm = null;
         int id = this.getID(object);
+        int i = 1;
         if (id == 0) {
             return false;
         }
@@ -137,7 +139,6 @@ public class SessionImpl implements Session {
             pstm = conn.prepareStatement(updateQuery);
             String[] fields = ObjectHelper.getFields(object);
             int n = fields.length;
-            int i = 1;
 
             for (String field: fields) {
                 pstm.setObject(i++, ObjectHelper.getter(object, field));

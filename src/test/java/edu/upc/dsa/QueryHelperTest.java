@@ -1,6 +1,7 @@
 package edu.upc.dsa;
 
 import edu.upc.dsa.models.Item;
+import edu.upc.dsa.models.Level;
 import edu.upc.dsa.models.Question;
 import edu.upc.dsa.models.User;
 import edu.upc.dsa.util.QueryHelper;
@@ -23,11 +24,12 @@ public class QueryHelperTest {
     public void testQuerySELECTID2() {
         //Assert.assertEquals("SELECT ID FROM Item WHERE name=?",
                 //QueryHelper.createQuerySELECTID(new Item("sword", "cut your head", 10, 20, 90, "image.png")));
+        System.out.println(QueryHelper.createQuerySELECTbyID(new Level()));
     }
 
     @Test
     public void testQueryUPDATE() {
-       // System.out.println(QueryHelper.createQueryUPDATE(new Item("sword", "cut your head", 10, 20, 90, "image.png")));
+       System.out.println(QueryHelper.createQueryUPDATE(new User()));
     }
 
     @Test

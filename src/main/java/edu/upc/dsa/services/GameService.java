@@ -163,6 +163,37 @@ public class GameService {
         return Response.status(201).entity(entity).build();
     }
 
+    @GET
+    @ApiOperation(value = "get the levels", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Level.class),
+            @ApiResponse(code = 404, message = "Levels not found")
+    })
+    @Path("/users/levels")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response get(User user) {
+        Level lvl = this.gm.getLevel(user);
+
+        if (lvl == null) {return Response.status(404).build();}
+        else  {return Response.status(201).entity(lvl).build();}
+    }
+
+    @GET
+    @ApiOperation(value = "get ranking", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful", response = Score.class, responseContainer="List"),
+    })
+    @Path("/users/ranking")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getQuestions() {
+
+        List<Score> scores = this.gm.getScores();
+        GenericEntity<List<Score>> entity = new GenericEntity<List<Score>>(scores) {};
+
+        return Response.status(201).entity(entity).build();
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////// POST /////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -299,6 +330,23 @@ public class GameService {
 
         if (item == null) {return Response.status(404).build();}
         else {return Response.status(201).entity(i).build();}
+    }
+
+    @PUT
+    @ApiOperation(value = "update levels", notes = "asdasd")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successful",  response= Level.class),
+            @ApiResponse(code = 404, message = "Levels not found")
+    })
+    @Path("/users/levels/{nlevel}&{score}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateLevel(User u, @PathParam("nlevel") int nlevel, @PathParam("score") int score) {
+
+        Level lvl = this.gm.updateLevel(u, nlevel, score);
+
+        if (lvl == null) {return Response.status(404).build();}
+        else {return Response.status(201).entity(lvl).build();}
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

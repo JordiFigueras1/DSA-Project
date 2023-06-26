@@ -1,5 +1,8 @@
 package edu.upc.dsa.util;
 
+import edu.upc.dsa.models.Inventory;
+import edu.upc.dsa.models.Level;
+
 import java.lang.reflect.Constructor;
 import java.util.List;
 
@@ -100,14 +103,15 @@ public class QueryHelper {
 
         String [] fields = ObjectHelper.getFields(entity);
         int n = fields.length;
-
-        for (String field : fields) {
-            if (field.equals(fields[n-1])) {
-                sb.append(field).append("=?");
-            } else {
-                sb.append(field).append("=?, ");
-            }
+        int begin = 0;
+        if (entity.getClass().equals(Level.class)) {
+            begin = 1;
         }
+
+        for (int i = begin; i < n-1; i++ ) {
+            sb.append(fields[i]).append("=?, ");
+        }
+        sb.append(fields[n-1]).append("=?");
         sb.append(" WHERE ID = ?");
 
         return sb.toString();

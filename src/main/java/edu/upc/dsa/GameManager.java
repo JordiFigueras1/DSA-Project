@@ -42,4 +42,8 @@ public interface GameManager {
     public Message messageRequestToMessage(MessageRequest mr);
     public MessageRequest messageToMessageRequest(Message m);
     public List<MessageRequest> getMessages(String mail, String password);
+
+    public Level getLevel(User user);
+    public Level updateLevel(User user, int level, int score);
+    public List<Score> getScores();
 }
