@@ -69,7 +69,9 @@ public class SessionImpl implements Session {
             Object entity = (Object) ctor.newInstance();
 
             String selectQuery = QueryHelper.createQuerySELECTbyID(entity);
+            System.out.println(selectQuery);
             pstm = conn.prepareStatement(selectQuery);
+            System.out.println(pstm);
             pstm.setObject(1, ID);
 
             System.out.println(pstm);
