@@ -169,9 +169,11 @@ public class GameService {
             @ApiResponse(code = 201, message = "Successful", response = Level.class),
             @ApiResponse(code = 404, message = "Levels not found")
     })
-    @Path("/users/levels")
+    @Path("/users/levels/{mail}&{password}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(User user) {
+    public Response getLevel(@PathParam("mail") String mail, @PathParam("password") String password) {
+
+        User user = this.gm.authentification(mail, password);
         Level lvl = this.gm.getLevel(user);
 
         if (lvl == null) {return Response.status(404).build();}
@@ -186,7 +188,7 @@ public class GameService {
     @Path("/users/ranking")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getQuestions() {
+    public Response getScores() {
 
         List<Score> scores = this.gm.getScores();
         GenericEntity<List<Score>> entity = new GenericEntity<List<Score>>(scores) {};

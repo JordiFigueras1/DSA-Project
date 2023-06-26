@@ -748,6 +748,8 @@ public class GameManagerImpl implements GameManager{
             session = FactorySession.openSession();
             lvl = this.getLevel(user);
             String property = "level" + nlevel;
+            System.out.println(property);
+            System.out.println(lvl);
             int actualScore = (int) ObjectHelper.getter(lvl, property);
 
             if (score > actualScore) {
