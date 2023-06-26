@@ -50,10 +50,11 @@ public class GameManagerImpl implements GameManager{
             if (userID == 0) {
                 user = u;
                 items = this.getAllItems();
-                Level lvl = new Level(userID);
-
                 user.setPassword(PasswordSecurity.encrypt(user.getPassword()));
                 session.save(user);
+                userID = session.getID(user);
+
+                Level lvl = new Level(userID);
                 session.save(lvl);
                 for (Item i : items) {
                     info = new Message(session.getID(user), date + " : new item " + i.getName() + " is available for " + i.getPrice() + " coins.");
