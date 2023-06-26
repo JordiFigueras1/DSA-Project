@@ -1,5 +1,7 @@
 package edu.upc.dsa.models;
 
+import io.swagger.models.auth.In;
+
 public class Level {
     int id;
     int level1;
@@ -30,91 +32,91 @@ public class Level {
         this.level10 = 0;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getLevel1() {
+    public Integer getLevel1() {
         return level1;
     }
 
-    public void setLevel1(int level1) {
+    public void setLevel1(Integer level1) {
         this.level1 = level1;
     }
 
-    public int getLevel2() {
+    public Integer getLevel2() {
         return level2;
     }
 
-    public void setLevel2(int level2) {
+    public void setLevel2(Integer level2) {
         this.level2 = level2;
     }
 
-    public int getLevel3() {
+    public Integer getLevel3() {
         return level3;
     }
 
-    public void setLevel3(int level3) {
+    public void setLevel3(Integer level3) {
         this.level3 = level3;
     }
 
-    public int getLevel4() {
+    public Integer getLevel4() {
         return level4;
     }
 
-    public void setLevel4(int level4) {
+    public void setLevel4(Integer level4) {
         this.level4 = level4;
     }
 
-    public int getLevel5() {
+    public Integer getLevel5() {
         return level5;
     }
 
-    public void setLevel5(int level5) {
+    public void setLevel5(Integer level5) {
         this.level5 = level5;
     }
 
-    public int getLevel6() {
+    public Integer getLevel6() {
         return level6;
     }
 
-    public void setLevel6(int level6) {
+    public void setLevel6(Integer level6) {
         this.level6 = level6;
     }
 
-    public int getLevel7() {
+    public Integer getLevel7() {
         return level7;
     }
 
-    public void setLevel7(int level7) {
+    public void setLevel7(Integer level7) {
         this.level7 = level7;
     }
 
-    public int getLevel8() {
+    public Integer getLevel8() {
         return level8;
     }
 
-    public void setLevel8(int level8) {
+    public void setLevel8(Integer level8) {
         this.level8 = level8;
     }
 
-    public int getLevel9() {
+    public Integer getLevel9() {
         return level9;
     }
 
-    public void setLevel9(int level9) {
+    public void setLevel9(Integer level9) {
         this.level9 = level9;
     }
 
-    public int getLevel10() {
+    public Integer getLevel10() {
         return level10;
     }
 
-    public void setLevel10(int level10) {
+    public void setLevel10(Integer level10) {
         this.level10 = level10;
     }
 }
