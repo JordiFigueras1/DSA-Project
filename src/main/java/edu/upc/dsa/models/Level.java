@@ -1,6 +1,5 @@
 package edu.upc.dsa.models;
 
-import io.swagger.models.auth.In;
 
 public class Level {
     int id;

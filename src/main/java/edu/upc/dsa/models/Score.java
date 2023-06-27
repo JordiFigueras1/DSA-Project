@@ -12,19 +12,19 @@ public class Score {
         this.score = lvl.getLevel1() + lvl.getLevel2() + lvl.getLevel3() + lvl.getLevel4() + lvl.getLevel5() + lvl.getLevel6() + lvl.getLevel7() + lvl.getLevel8() + lvl.getLevel9() + lvl.getLevel10();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getScore() {
+    public Integer getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 }

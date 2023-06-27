@@ -69,12 +69,8 @@ public class SessionImpl implements Session {
             Object entity = (Object) ctor.newInstance();
 
             String selectQuery = QueryHelper.createQuerySELECTbyID(entity);
-            System.out.println(selectQuery);
             pstm = conn.prepareStatement(selectQuery);
-            System.out.println(pstm);
             pstm.setObject(1, ID);
-
-            System.out.println(pstm);
 
             ResultSet result = pstm.executeQuery();
 
@@ -160,7 +156,6 @@ public class SessionImpl implements Session {
 
         try {
             int id = this.getID(object);
-            System.out.println(id);
             String selectQuery = QueryHelper.createQueryDELETE(object);
             pstm = conn.prepareStatement(selectQuery);
             pstm.setObject(1, id);
@@ -177,9 +172,7 @@ public class SessionImpl implements Session {
         PreparedStatement pstm = null;
 
         List<Object> objects = this.findAll(myClass);
-        System.out.println(objects);
         int n = objects.size();
-        System.out.println(n);
         String createQuery;
 
         try {
@@ -196,7 +189,6 @@ public class SessionImpl implements Session {
             }
             sb.append("PRIMARY KEY (idUser)) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
             createQuery =  sb.toString();
-            System.out.println(createQuery);
 
             pstm = conn.prepareStatement(createQuery);
             pstm.executeQuery();

@@ -102,27 +102,19 @@ public class GameManagerImpl implements GameManager{
     @Override
     public User authentification(String mail, String password) {
 
-        System.out.println("mail : " + mail);
-        System.out.println("password : " + password);
-
         Session session = null;
         User user = new User(mail, password, "Zidane");
-        System.out.println(user);
         User u = null;
         int id = 0;
 
         try {
             session = FactorySession.openSession();
             id = session.getID(user);
-            System.out.println(id);
 
             if (id == 0) {
                 logger.info("user not found");
             } else {
                 u = this.getUser(id);
-
-                System.out.println(PasswordSecurity.decrypt(u.getPassword()));
-                System.out.println(password);
 
                 if (!(PasswordSecurity.decrypt(u.getPassword()).equals(password))) {
                     logger.warn("Password wrong");
@@ -724,7 +716,6 @@ public class GameManagerImpl implements GameManager{
         try {
             session = FactorySession.openSession();
             id = session.getID(user);
-            System.out.println(id);
             logger.info("we want to get the levels of " + user.getUsername());
             level = (Level) session.getByID(Level.class, id);
 
@@ -750,8 +741,6 @@ public class GameManagerImpl implements GameManager{
             session = FactorySession.openSession();
             lvl = this.getLevel(user);
             String property = "level" + nlevel;
-            System.out.println(property);
-            System.out.println(lvl);
             int actualScore = (int) ObjectHelper.getter(lvl, property);
 
             if (score > actualScore) {
